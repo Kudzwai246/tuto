@@ -29,12 +29,12 @@
       padding: 1rem;
     }
     .mini-hero .hero-title {
-      font-size: 2.25rem;
+      font-size: 2.5rem;
       margin-bottom: 0.5rem;
     }
     .mini-hero .hero-subtitle {
       font-size: 1rem;
-      opacity: 0.85;
+      opacity: 0.8;
       max-width: 600px;
       margin: 0 auto;
     }
@@ -235,7 +235,7 @@
     <div class="hero-content fade-in">
       <h1 class="hero-title">Apply as a Teacher</h1>
       <p class="hero-subtitle">
-        Submit your application and upload your CV &amp; qualification documents.
+        Submit your application, indicate vocational status, and location.
       </p>
     </div>
   </header>
@@ -310,6 +310,42 @@
             />
           </div>
 
+          <!-- Vocational Instructor Checkbox -->
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="isVocational"
+              name="isVocational"
+            />
+            <label for="isVocational">
+              I am a vocational instructor
+            </label>
+          </div>
+
+          <!-- Equipment Available Checkbox -->
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="hasEquipment"
+              name="hasEquipment"
+            />
+            <label for="hasEquipment">
+              I have the necessary equipment (tools/machines) for vocational training
+            </label>
+          </div>
+
+          <!-- Space for ≤5 Learners Checkbox -->
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="hasSmallClassSpace"
+              name="hasSmallClassSpace"
+            />
+            <label for="hasSmallClassSpace">
+              I have space to teach up to 5 learners per class
+            </label>
+          </div>
+
           <!-- Tell Us About Yourself -->
           <div class="form-group">
             <label for="teacherBio">Tell Us About Yourself</label>
@@ -321,28 +357,7 @@
             ></textarea>
           </div>
 
-          <!-- Available Space for In-Person Group Lessons -->
-          <div class="checkbox-group">
-            <input
-              type="checkbox"
-              id="hasInPersonSpace"
-              name="hasInPersonSpace"
-            />
-            <label for="hasInPersonSpace">
-              I have space available to conduct in-person group lessons
-            </label>
-          </div>
-
-          <!-- Google Map for Location -->
-          <div class="form-group">
-            <label for="map">Your Location (Drag marker or click to set)</label>
-            <div id="map"></div>
-            <!-- Hidden inputs to store lat & lng -->
-            <input type="hidden" id="teacherLat" name="latitude" />
-            <input type="hidden" id="teacherLng" name="longitude" />
-          </div>
-
-          <!-- Resume/CV Upload -->
+          <!-- Resume/CV Upload (PDF only) -->
           <div class="form-group">
             <label for="teacherResume">Upload Resume / CV (PDF)</label>
             <div class="file-input-wrapper">
@@ -359,7 +374,7 @@
             </small>
           </div>
 
-          <!-- Qualification Documents Upload -->
+          <!-- Qualification Documents Upload (PDF only) -->
           <div class="form-group">
             <label for="teacherDocs">Upload Qualification Docs (PDF)</label>
             <div class="file-input-wrapper">
@@ -420,6 +435,15 @@
             </div>
           </div>
 
+          <!-- Google Map for Location -->
+          <div class="form-group">
+            <label for="map">Your Location (Drag marker or click to set)</label>
+            <div id="map"></div>
+            <!-- Hidden inputs to store lat & lng -->
+            <input type="hidden" id="teacherLat" name="latitude" />
+            <input type="hidden" id="teacherLng" name="longitude" />
+          </div>
+
           <!-- Submit Button -->
           <button type="submit">Submit Application</button>
 
@@ -450,7 +474,7 @@
   </footer>
 
   <!-- ====== Google Maps & Application Logic ====== -->
-  <!-- 1) Load Google Maps JS (replace YOUR_GOOGLE_MAPS_API_KEY_HERE) -->
+  <!-- Replace with your actual API key -->
   <script
     src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY_HERE&callback=initMap"
     async
@@ -459,20 +483,20 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Variables for map and marker
+      // Map & marker variables
       let map, marker;
 
       // Initialize Google Map
       window.initMap = function () {
-        const defaultLocation = { lat: -17.8249, lng: 31.0498 }; // Center on Harare by default
+        const defaultLocation = { lat: -17.8249, lng: 31.0498 }; // Harare
 
         map = new google.maps.Map(document.getElementById('map'), {
           center: defaultLocation,
           zoom: 12,
-          styles: [ /* Optional: Add dark‐mode map styling here */ ],
+          styles: [ /* Optional: dark-mode map styling */ ],
         });
 
-        // If browser supports geolocation, try to get user location
+        // Try HTML5 geolocation
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             position => {
@@ -484,7 +508,7 @@
               placeMarker(userLoc);
             },
             () => {
-              // If geolocation fails or denied, place marker at default
+              // If user denies or fails, use default
               placeMarker(defaultLocation);
             }
           );
@@ -498,7 +522,7 @@
         });
       };
 
-      // Place (or move) marker and store lat/lng in hidden inputs
+      // Place (or move) marker and update hidden inputs
       function placeMarker(location) {
         if (marker) {
           marker.setPosition(location);
@@ -528,15 +552,15 @@
           const pwdInput = btn.previousElementSibling;
           if (pwdInput.getAttribute('type') === 'password') {
             pwdInput.setAttribute('type', 'text');
-            btn.textContent = '🙈';
+            btn.textContent = '🙈'; // hide icon
           } else {
             pwdInput.setAttribute('type', 'password');
-            btn.textContent = '👁️';
+            btn.textContent = '👁️'; // show icon
           }
         });
       });
 
-      // Helpers for localStorage
+      // Helpers: localStorage for teacher applications
       function getApplications() {
         return JSON.parse(localStorage.getItem('teacherApplications') || '[]');
       }
@@ -544,6 +568,7 @@
         localStorage.setItem('teacherApplications', JSON.stringify(arr));
       }
 
+      // Grab form and message elements
       const form = document.getElementById('teacherApplicationForm');
       const errorPara = document.getElementById('teacherError');
       const successPara = document.getElementById('teacherSuccess');
@@ -553,20 +578,23 @@
         errorPara.textContent = '';
         successPara.textContent = '';
 
-        // Collect values
+        // Collect base fields
         const fullName = document.getElementById('teacherFullName').value.trim();
         const email = document.getElementById('teacherEmail').value.trim().toLowerCase();
         const phone = document.getElementById('teacherPhone').value.trim();
         const subjectsRaw = document.getElementById('teacherSubjects').value.trim();
-        const subjects = subjectsRaw.split(',').map(s => s.trim()).filter(Boolean);
+        const subjects = subjectsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
         const qualification = document.getElementById('teacherQualification').value.trim();
         const bio = document.getElementById('teacherBio').value.trim();
-        const hasInPersonSpace = document.getElementById('hasInPersonSpace').checked;
-        const latitude = document.getElementById('teacherLat').value;
-        const longitude = document.getElementById('teacherLng').value;
+        const isVocational = document.getElementById('isVocational').checked;
+        const hasEquipment = document.getElementById('hasEquipment').checked;
+        const hasSmallClassSpace = document.getElementById('hasSmallClassSpace').checked;
         const password = document.getElementById('teacherPassword').value;
         const confirmPassword = document.getElementById('teacherConfirmPassword').value;
+        const latitude = document.getElementById('teacherLat').value;
+        const longitude = document.getElementById('teacherLng').value;
 
+        // File inputs
         const resumeInput = document.getElementById('teacherResume');
         const docsInput = document.getElementById('teacherDocs');
 
@@ -576,7 +604,10 @@
           return;
         }
 
-        // Password match check
+        // If not vocational, ensure subjects & qualification are present (already required by HTML)
+        // No extra check needed since those fields are `required`.
+
+        // Password match
         if (password !== confirmPassword) {
           errorPara.textContent = 'Passwords do not match.';
           return;
@@ -592,12 +623,11 @@
           return;
         }
 
-        // Retrieve the selected files
+        // Validate file types & sizes
         const resumeFile = resumeInput.files[0];
         const docsFile = docsInput.files[0];
         const maxSize = 5 * 1024 * 1024; // 5 MB
 
-        // Validate file types & sizes
         if (resumeFile.type !== 'application/pdf') {
           errorPara.textContent = 'Resume must be a PDF file.';
           return;
@@ -622,7 +652,7 @@
           return;
         }
 
-        // Read files as Base64
+        // Read PDFs as Base64
         const readFileAsDataURL = file =>
           new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -641,21 +671,24 @@
               subjects,
               qualification,
               bio,
-              hasInPersonSpace,
-              latitude,
-              longitude,
-              password, // In real app, do NOT store raw passwords!
+              isVocational,
+              hasEquipment,
+              hasSmallClassSpace,
+              password, // In production, do NOT store raw passwords!
               resumeFileName: resumeFile.name,
               resumeData: resumeDataURL,
               docsFileName: docsFile.name,
               docsData: docsDataURL,
+              latitude,
+              longitude,
               appliedAt: new Date().toISOString()
             };
 
-            // Save and show success
+            // Save to localStorage
             applications.push(newApplication);
             saveApplications(applications);
 
+            // Show success message
             successPara.textContent =
               'Application submitted! We will review your documents and get back to you.';
             form.reset();
