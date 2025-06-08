@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Login &mdash; Tuto</title>
+
+  <!-- Link to your existing CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Same Google Font as homepage -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <!-- Header with Logo -->
+  <header class="auth-header">
+    <div class="container auth-header-content">
+      <a href="index.html" class="auth-logo">Tuto</a>
+    </div>
+  </header>
+
+  <!-- Main Login Form Container -->
+  <main class="auth-main">
+    <div class="auth-card">
+      <h2 class="auth-heading">Teacher Login</h2>
+      <form id="teacherLoginForm" class="auth-form" novalidate>
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="teacherEmail">Email</label>
+          <input
+            type="email"
+            id="teacherEmail"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+        </div>
+
+        <!-- Password Field w/ Show/Hide Toggle -->
+        <div class="form-group">
+          <label for="teacherPassword">Password</label>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="teacherPassword"
+              name="password"
+              placeholder="••••••••"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-password"
+              aria-label="Show or hide password"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-block">
+          Log In
+        </button>
+
+        <!-- Registration Link -->
+        <p class="auth-footer-text">
+          New to Tuto? 
+          <a href="apply-teacher.html" class="auth-link">Apply as a Teacher</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <!-- Optional Footer (minimal) -->
+  <footer class="auth-footer">
+    <p>&copy; 2025 Tuto. All rights reserved.</p>
+  </footer>
+
+  <!-- Inline JavaScript for Show/Hide Password -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const toggleBtn = document.querySelector('.toggle-password');
+      const passwordField = document.getElementById('teacherPassword');
+
+      toggleBtn.addEventListener('click', () => {
+        const type = passwordField.getAttribute('type');
+        if (type === 'password') {
+          passwordField.setAttribute('type', 'text');
+          toggleBtn.textContent = '🙈';
+        } else {
+          passwordField.setAttribute('type', 'password');
+          toggleBtn.textContent = '👁️';
+        }
+      });
+
+      // Basic HTML5 validation handling
+      const form = document.getElementById('teacherLoginForm');
+      form.addEventListener('submit', function (e) {
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          form.reportValidity();
+        }
+        // Otherwise, allow the form to submit to your back-end
+      });
+    });
+  </script>
+</body>
+</html>
