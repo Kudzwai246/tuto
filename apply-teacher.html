@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply as Teacher &mdash; Tuto</title>
+
+  <!-- Reuse your existing stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Google Font (same as homepage) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <!-- ====== MINI-HERO ====== -->
+  <header class="hero mini-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-in">
+      <h1 class="hero-title" style="font-size: 2.5rem;">Apply as a Teacher</h1>
+      <p class="hero-subtitle" style="font-size: 1rem; opacity: 0.8;">
+        Submit your application and upload your CV &amp; qualification documents.
+      </p>
+    </div>
+  </header>
+
+  <!-- ====== APPLICATION FORM CARD ====== -->
+  <main class="features-section" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="container">
+      <div class="auth-card fade-in" style="margin: 0 auto; max-width: 550px;">
+        <h2 class="auth-heading">Teacher Application</h2>
+        <form id="teacherApplicationForm" class="auth-form" novalidate>
+          <!-- Full Name -->
+          <div class="form-group">
+            <label for="teacherFullName">Full Name</label>
+            <input
+              type="text"
+              id="teacherFullName"
+              name="fullName"
+              placeholder="Jane Smith"
+              required
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="teacherEmail">Email</label>
+            <input
+              type="email"
+              id="teacherEmail"
+              name="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <!-- Phone Number -->
+          <div class="form-group">
+            <label for="teacherPhone">Phone Number</label>
+            <input
+              type="tel"
+              id="teacherPhone"
+              name="phone"
+              placeholder="+263 77 123 4567"
+              pattern="\\+?[0-9]{7,15}"
+              required
+            />
+          </div>
+
+          <!-- Subjects Taught -->
+          <div class="form-group">
+            <label for="teacherSubjects">Subjects Taught</label>
+            <input
+              type="text"
+              id="teacherSubjects"
+              name="subjects"
+              placeholder="Math, English, Physics"
+              required
+            />
+            <small style="color: #ccc; font-size: 0.85rem;">
+              Comma-separated (e.g., Math, English, Physics)
+            </small>
+          </div>
+
+          <!-- Highest Qualification -->
+          <div class="form-group">
+            <label for="teacherQualification">Highest Qualification</label>
+            <input
+              type="text"
+              id="teacherQualification"
+              name="qualification"
+              placeholder="B.Ed in Secondary Education"
+              required
+            />
+          </div>
+
+          <!-- Cover Letter / Bio -->
+          <div class="form-group">
+            <label for="teacherBio">Tell Us About Yourself</label>
+            <textarea
+              id="teacherBio"
+              name="bio"
+              rows="4"
+              placeholder="A brief bio or cover letter..."
+              required
+            ></textarea>
+          </div>
+
+          <!-- Resume/CV Upload (PDF only) -->
+          <div class="form-group">
+            <label for="teacherResume">Upload Resume / CV (PDF)</label>
+            <input
+              type="file"
+              id="teacherResume"
+              name="resume"
+              accept="application/pdf"
+              required
+            />
+            <small style="color: #ccc; font-size: 0.85rem;">
+              Max file size: 5 MB
+            </small>
+          </div>
+
+          <!-- Qualification Documents Upload (PDF only) -->
+          <div class="form-group">
+            <label for="teacherDocs">Upload Qualification Docs (PDF)</label>
+            <input
+              type="file"
+              id="teacherDocs"
+              name="docs"
+              accept="application/pdf"
+              required
+            />
+            <small style="color: #ccc; font-size: 0.85rem;">
+              Max file size: 5 MB
+            </small>
+          </div>
+
+          <!-- Create Password -->
+          <div class="form-group">
+            <label for="teacherPassword">Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="teacherPassword"
+                name="password"
+                placeholder="••••••••"
+                minlength="6"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                aria-label="Show or hide password"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="teacherConfirmPassword">Confirm Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="teacherConfirmPassword"
+                name="confirmPassword"
+                placeholder="••••••••"
+                minlength="6"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                aria-label="Show or hide password"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-block">
+            Submit Application
+          </button>
+
+          <!-- Already Applied/Login Link -->
+          <p class="auth-footer-text" style="margin-top: 1.5rem;">
+            Already applied?  
+            <a href="login-teacher.html" class="auth-link">Log in here</a>
+          </p>
+
+          <!-- Error / Success Messages -->
+          <p id="teacherError" style="color: #ff6f61; text-align: center; margin-top: 1rem;"></p>
+          <p id="teacherSuccess" style="color: #4caf50; text-align: center; margin-top: 1rem;"></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Tuto. All rights reserved.</p>
+      <ul class="social-links">
+        <li><a href="#" aria-label="Twitter">🐦</a></li>
+        <li><a href="#" aria-label="Facebook">📘</a></li>
+        <li><a href="#" aria-label="Instagram">📸</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- ====== INLINE JAVASCRIPT FOR APPLICATION LOGIC ====== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Toggle password visibility (for both password fields)
+      const toggleButtons = document.querySelectorAll('.toggle-password');
+      toggleButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const pwdInput = btn.previousElementSibling;
+          if (pwdInput.getAttribute('type') === 'password') {
+            pwdInput.setAttribute('type', 'text');
+            btn.textContent = '🙈';
+          } else {
+            pwdInput.setAttribute('type', 'password');
+            btn.textContent = '👁️';
+          }
+        });
+      });
+
+      // Helpers: localStorage for teacher applications
+      function getApplications() {
+        return JSON.parse(localStorage.getItem('teacherApplications') || '[]');
+      }
+      function saveApplications(arr) {
+        localStorage.setItem('teacherApplications', JSON.stringify(arr));
+      }
+
+      const form = document.getElementById('teacherApplicationForm');
+      const errorPara = document.getElementById('teacherError');
+      const successPara = document.getElementById('teacherSuccess');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorPara.textContent = '';
+        successPara.textContent = '';
+
+        // Collect basic fields
+        const fullName = document.getElementById('teacherFullName').value.trim();
+        const emailInput = document.getElementById('teacherEmail');
+        const email = emailInput.value.trim().toLowerCase();
+        const phone = document.getElementById('teacherPhone').value.trim();
+        const subjectsRaw = document.getElementById('teacherSubjects').value.trim();
+        const subjects = subjectsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+        const qualification = document.getElementById('teacherQualification').value.trim();
+        const bio = document.getElementById('teacherBio').value.trim();
+        const password = document.getElementById('teacherPassword').value;
+        const confirmPassword = document.getElementById('teacherConfirmPassword').value;
+
+        const resumeInput = document.getElementById('teacherResume');
+        const docsInput = document.getElementById('teacherDocs');
+
+        // Basic HTML5 form validity
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        // Ensure passwords match
+        if (password !== confirmPassword) {
+          errorPara.textContent = 'Passwords do not match.';
+          return;
+        }
+
+        // Ensure both files are selected
+        if (!resumeInput.files.length) {
+          errorPara.textContent = 'Please upload your Resume/CV (PDF).';
+          return;
+        }
+        if (!docsInput.files.length) {
+          errorPara.textContent = 'Please upload your Qualification Documents (PDF).';
+          return;
+        }
+
+        // Validate file types & sizes (<5MB)
+        const resumeFile = resumeInput.files[0];
+        const docsFile = docsInput.files[0];
+        const maxSize = 5 * 1024 * 1024; // 5 MB
+
+        if (resumeFile.type !== 'application/pdf') {
+          errorPara.textContent = 'Resume must be a PDF file.';
+          return;
+        }
+        if (resumeFile.size > maxSize) {
+          errorPara.textContent = 'Resume file size must be < 5 MB.';
+          return;
+        }
+        if (docsFile.type !== 'application/pdf') {
+          errorPara.textContent = 'Qualification documents must be a PDF.';
+          return;
+        }
+        if (docsFile.size > maxSize) {
+          errorPara.textContent = 'Qualification documents file size must be < 5 MB.';
+          return;
+        }
+
+        // Check for duplicate applications by email
+        const applications = getApplications();
+        const existing = applications.find(a => a.email === email);
+        if (existing) {
+          errorPara.textContent = 'An application with this email already exists.';
+          return;
+        }
+
+        // Read both PDFs as Base64 Data URLs
+        const readFileAsDataURL = file =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject('Error reading file');
+            reader.readAsDataURL(file);
+          });
+
+        // Once both are read, store the application
+        Promise.all([readFileAsDataURL(resumeFile), readFileAsDataURL(docsFile)])
+          .then(([resumeDataURL, docsDataURL]) => {
+            // Construct new application object
+            const newApplication = {
+              fullName,
+              email,
+              phone,
+              subjects,
+              qualification,
+              bio,
+              password, // In real app, hash this!
+              resumeFileName: resumeFile.name,
+              resumeData: resumeDataURL,
+              docsFileName: docsFile.name,
+              docsData: docsDataURL,
+              appliedAt: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            applications.push(newApplication);
+            saveApplications(applications);
+
+            // Show success message
+            successPara.textContent =
+              'Application submitted! We will review your documents and get back to you.';
+            // Optionally, clear the form
+            form.reset();
+          })
+          .catch(err => {
+            errorPara.textContent = 'Error reading files. Please try again.';
+            console.error(err);
+          });
+      });
+    });
+  </script>
+</body>
+</html>
