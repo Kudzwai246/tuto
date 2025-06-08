@@ -3,94 +3,205 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tuto</title>
+  <title>Tuto &mdash; Learn Smarter</title>
 
-  <!-- Link to your CSS file -->
+  <!-- Link to our CSS -->
   <link rel="stylesheet" href="css/style.css" />
-  
-  <!-- If you want to use a Google Font or FontAwesome icons, you can uncomment below -->
-  <!--
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Import a clean, modern sans-serif (you can switch to any Google Font you prefer) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
     rel="stylesheet"
   />
-  <script
-    src="https://kit.fontawesome.com/XXXXXXXXXX.js"
-    crossorigin="anonymous"
-  ></script>
-  -->
 </head>
 <body>
-  <!-- ====== HEADER ====== -->
-  <header class="site-header">
-    <div class="header-content">
-      <!-- Hamburger icon -->
-      <button class="hamburger-btn" aria-label="Open menu">
-        <!-- Simple three-line icon -->
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
-
-      <!-- Logo -->
-      <h1 class="logo">Tuto</h1>
-
-      <!-- Search icon (magnifying glass) -->
-      <button class="search-btn" aria-label="Search">
-        <!-- You can replace with an <img> or SVG if preferred -->
-        🔍
-      </button>
+  <!-- ====== HERO / HEADER ====== -->
+  <header class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Tuto</h1>
+      <p class="hero-subtitle">
+        Modern, Flexible &amp; Expert-Led Tutoring <br />
+        (ZIMSEC • Cambridge • Vocational)
+      </p>
+      <a href="#features" class="btn btn-primary">Explore Tuto</a>
     </div>
-    <!-- Thin red accent line -->
-    <div class="header-accent"></div>
-
-    <!-- Navigation below the header -->
-    <nav class="main-nav">
-      <ul>
-        <li><a href="#">Register Learner</a></li>
-        <li><a href="#">Learner Login</a></li>
-        <li><a href="#">Apply as Teacher</a></li>
-        <li><a href="#">Teacher Login</a></li>
-        <li><a href="#">Explore</a></li>
-        <li><a href="#">Contact Us</a></li>
-      </ul>
-    </nav>
   </header>
 
-  <!-- ====== MAIN CONTENT ====== -->
-  <main>
-    <!-- Featured Section (similar to “Featured Articles”) -->
-    <section class="featured-section">
-      <h2>Featured</h2>
-      <div class="thumbnails-grid">
-        <!-- You can replace the placeholder divs with <img> tags pointing to real images -->
-        <div class="thumb-item">
-          <div class="thumb-image placeholder"></div>
-          <h3 class="thumb-title">Thumbnail 1</h3>
+  <!-- ====== FEATURES GRID ====== -->
+  <section id="features" class="features-section">
+    <h2 class="section-heading">Get Started</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-thumb">
+          <img
+            src="img/feature-register.jpg"
+            alt="Register Learner"
+            loading="lazy"
+          />
         </div>
-        <div class="thumb-item">
-          <div class="thumb-image placeholder"></div>
-          <h3 class="thumb-title">Thumbnail 2</h3>
+        <h3 class="feature-title">Register Learner</h3>
+        <p class="feature-desc">
+          Sign up your child and set up a personalized learning journey with
+          certified tutors.
+        </p>
+        <a href="register-learner.html" class="feature-link">Register Now</a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-thumb">
+          <img
+            src="img/feature-login.jpg"
+            alt="Learner Login"
+            loading="lazy"
+          />
         </div>
-        <div class="thumb-item">
-          <div class="thumb-image placeholder"></div>
-          <h3 class="thumb-title">Thumbnail 3</h3>
+        <h3 class="feature-title">Learner Login</h3>
+        <p class="feature-desc">
+          Already registered? Log in and access your dashboard, classes, and
+          progress reports.
+        </p>
+        <a href="login-learner.html" class="feature-link">Log In</a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-thumb">
+          <img
+            src="img/feature-apply.jpg"
+            alt="Apply as Teacher"
+            loading="lazy"
+          />
         </div>
-        <div class="thumb-item">
-          <div class="thumb-image placeholder"></div>
-          <h3 class="thumb-title">Thumbnail 4</h3>
+        <h3 class="feature-title">Apply as Teacher</h3>
+        <p class="feature-desc">
+          Join our teaching community. Flexible hours, competitive rates, and
+          a 90% take-home share.
+        </p>
+        <a href="apply-teacher.html" class="feature-link">Apply Now</a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-thumb">
+          <img
+            src="img/feature-teacher.jpg"
+            alt="Teacher Login"
+            loading="lazy"
+          />
+        </div>
+        <h3 class="feature-title">Teacher Login</h3>
+        <p class="feature-desc">
+          Already a Tuto educator? Log in to manage your classes, schedules, and
+          earnings.
+        </p>
+        <a href="login-teacher.html" class="feature-link">Log In</a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-thumb">
+          <img
+            src="img/feature-explore.jpg"
+            alt="Explore"
+            loading="lazy"
+          />
+        </div>
+        <h3 class="feature-title">Explore</h3>
+        <p class="feature-desc">
+          Browse subjects, styles (1:1 or groups), and find your perfect tutor
+          match.
+        </p>
+        <a href="explore.html" class="feature-link">Explore Subjects</a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-thumb">
+          <img
+            src="img/feature-contact.jpg"
+            alt="Contact Us"
+            loading="lazy"
+          />
+        </div>
+        <h3 class="feature-title">Contact Us</h3>
+        <p class="feature-desc">
+          Have questions? Reach out to our support team—help is just a message
+          away.
+        </p>
+        <a href="contact.html" class="feature-link">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== HOW IT WORKS ====== -->
+  <section class="howitworks-section">
+    <h2 class="section-heading">How It Works</h2>
+    <div class="howitworks-grid">
+      <div class="how-card">
+        <div class="how-thumb">
+          <img
+            src="img/howitworks-step1.jpg"
+            alt="Step 1: Register"
+            loading="lazy"
+          />
+        </div>
+        <div class="how-text">
+          <h3 class="how-step">Step 1.</h3>
+          <p>
+            <strong>Register &amp; Create Profile</strong><br />
+            Fill out basic details, choose your subscription, and pick subjects
+            of interest.
+          </p>
         </div>
       </div>
-    </section>
 
-    <!-- You can add more sections below (e.g., “Latest News” or “How it Works”) -->
-  </main>
+      <div class="how-card">
+        <div class="how-thumb">
+          <img
+            src="img/howitworks-step2.jpg"
+            alt="Step 2: Connect"
+            loading="lazy"
+          />
+        </div>
+        <div class="how-text">
+          <h3 class="how-step">Step 2.</h3>
+          <p>
+            <strong>Match &amp; Schedule</strong><br />
+            Our system pairs you with certified tutors. Book 1-on-1 or join
+            small-group classes at times you choose.
+          </p>
+        </div>
+      </div>
 
-  <!-- ====== FOOTER (optional) ====== -->
+      <div class="how-card">
+        <div class="how-thumb">
+          <img
+            src="img/howitworks-step3.jpg"
+            alt="Step 3: Learn"
+            loading="lazy"
+          />
+        </div>
+        <div class="how-text">
+          <h3 class="how-step">Step 3.</h3>
+          <p>
+            <strong>Learn &amp; Progress</strong><br />
+            Attend live sessions (online or in-person), review recordings,
+            track your progress, and achieve goals.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
   <footer class="site-footer">
-    <p>&copy; 2025 Tuto. All rights reserved.</p>
+    <div class="footer-content">
+      <p>&copy; 2025 Tuto. All rights reserved.</p>
+      <ul class="social-links">
+        <li><a href="#" aria-label="Twitter">🐦</a></li>
+        <li><a href="#" aria-label="Facebook">📘</a></li>
+        <li><a href="#" aria-label="Instagram">📸</a></li>
+      </ul>
+    </div>
   </footer>
 </body>
 </html>
