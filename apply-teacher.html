@@ -5,35 +5,247 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apply as Teacher &mdash; Tuto</title>
 
-  <!-- Reuse your existing stylesheet -->
+  <!-- Link to your existing CSS -->
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Google Font (same as homepage) -->
+  <!-- Google Font (Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
     rel="stylesheet"
   />
+
+  <!-- Additional CSS for this page -->
+  <style>
+    :root {
+      --input-bg: #2a2a2a;
+      --input-border: #444;
+      --input-focus-border: var(--accent);
+      --card-bg: #1f1f1f;
+    }
+    /* ===== Mini-hero adjustments ===== */
+    .mini-hero .hero-content {
+      padding: 1rem;
+    }
+    .mini-hero .hero-title {
+      font-size: 2.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .mini-hero .hero-subtitle {
+      font-size: 1rem;
+      opacity: 0.85;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== Application Card ===== */
+    .application-card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      padding: 2.5rem 2rem;
+      max-width: 600px;
+      margin: 2rem auto;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    .application-card h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .application-form .form-group {
+      margin-bottom: 1.75rem;
+    }
+    .application-form label {
+      display: block;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #c8c8c8;
+      margin-bottom: 0.5rem;
+    }
+    .application-form input[type="text"],
+    .application-form input[type="email"],
+    .application-form input[type="tel"],
+    .application-form input[type="password"],
+    .application-form select,
+    .application-form textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
+      background-color: var(--input-bg);
+      color: var(--text-light);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .application-form input:focus,
+    .application-form select:focus,
+    .application-form textarea:focus {
+      border-color: var(--input-focus-border);
+      box-shadow: 0 0 8px rgba(216, 67, 21, 0.4);
+    }
+    .application-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* ===== Custom file upload styling ===== */
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
+      background-color: var(--input-bg);
+    }
+    .file-input-wrapper input[type="file"] {
+      font-size: 0.9rem;
+      color: #eee;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    .file-input-wrapper input[type="file"]::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+    .file-input-wrapper::before {
+      content: "Choose PDF";
+      display: inline-block;
+      background-color: var(--accent);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-right: 0.5rem;
+    }
+    .file-input-wrapper:hover::before {
+      background-color: var(--accent-light);
+    }
+
+    /* ===== Password toggle button ===== */
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper input {
+      padding-right: 3rem;
+    }
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: #c8c8c8;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .toggle-password:hover {
+      color: var(--accent-light);
+    }
+
+    /* ===== Checkbox styling ===== */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--accent-light);
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #c8c8c8;
+    }
+
+    /* ===== Google Map ===== */
+    #map {
+      width: 100%;
+      height: 300px;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    /* ===== Submit Button ===== */
+    .application-form button[type="submit"] {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.85rem 1.5rem;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff;
+      border: none;
+      width: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .application-form button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+      background: var(--accent-light);
+    }
+
+    /* ===== Error & Success Messages ===== */
+    .error-message {
+      color: #ff6f61;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .success-message {
+      color: #4caf50;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .application-card {
+        padding: 1.75rem 1rem;
+        margin: 1.5rem 1rem;
+      }
+      #map {
+        height: 250px;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- ====== MINI-HERO ====== -->
   <header class="hero mini-hero">
     <div class="hero-overlay"></div>
     <div class="hero-content fade-in">
-      <h1 class="hero-title" style="font-size: 2.5rem;">Apply as a Teacher</h1>
-      <p class="hero-subtitle" style="font-size: 1rem; opacity: 0.8;">
+      <h1 class="hero-title">Apply as a Teacher</h1>
+      <p class="hero-subtitle">
         Submit your application and upload your CV &amp; qualification documents.
       </p>
     </div>
   </header>
 
   <!-- ====== APPLICATION FORM CARD ====== -->
-  <main class="features-section" style="padding-top: 2rem; padding-bottom: 4rem;">
+  <main class="features-section" style="padding-top: 2rem; padding-bottom: 3rem;">
     <div class="container">
-      <div class="auth-card fade-in" style="margin: 0 auto; max-width: 550px;">
-        <h2 class="auth-heading">Teacher Application</h2>
-        <form id="teacherApplicationForm" class="auth-form" novalidate>
+      <div class="application-card">
+        <h2>Teacher Application</h2>
+        <form id="teacherApplicationForm" class="application-form" novalidate>
           <!-- Full Name -->
           <div class="form-group">
             <label for="teacherFullName">Full Name</label>
@@ -98,49 +310,73 @@
             />
           </div>
 
-          <!-- Cover Letter / Bio -->
+          <!-- Tell Us About Yourself -->
           <div class="form-group">
             <label for="teacherBio">Tell Us About Yourself</label>
             <textarea
               id="teacherBio"
               name="bio"
-              rows="4"
               placeholder="A brief bio or cover letter..."
               required
             ></textarea>
           </div>
 
-          <!-- Resume/CV Upload (PDF only) -->
+          <!-- Available Space for In-Person Group Lessons -->
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="hasInPersonSpace"
+              name="hasInPersonSpace"
+            />
+            <label for="hasInPersonSpace">
+              I have space available to conduct in-person group lessons
+            </label>
+          </div>
+
+          <!-- Google Map for Location -->
+          <div class="form-group">
+            <label for="map">Your Location (Drag marker or click to set)</label>
+            <div id="map"></div>
+            <!-- Hidden inputs to store lat & lng -->
+            <input type="hidden" id="teacherLat" name="latitude" />
+            <input type="hidden" id="teacherLng" name="longitude" />
+          </div>
+
+          <!-- Resume/CV Upload -->
           <div class="form-group">
             <label for="teacherResume">Upload Resume / CV (PDF)</label>
-            <input
-              type="file"
-              id="teacherResume"
-              name="resume"
-              accept="application/pdf"
-              required
-            />
+            <div class="file-input-wrapper">
+              <input
+                type="file"
+                id="teacherResume"
+                name="resume"
+                accept="application/pdf"
+                required
+              />
+            </div>
             <small style="color: #ccc; font-size: 0.85rem;">
               Max file size: 5 MB
             </small>
           </div>
 
-          <!-- Qualification Documents Upload (PDF only) -->
+          <!-- Qualification Documents Upload -->
           <div class="form-group">
             <label for="teacherDocs">Upload Qualification Docs (PDF)</label>
-            <input
-              type="file"
-              id="teacherDocs"
-              name="docs"
-              accept="application/pdf"
-              required
-            />
+            <div class="file-input-wrapper">
+              <input
+                type="file"
+                id="teacherDocs"
+                name="docs"
+                accept="application/pdf"
+                required
+              />
+            </div>
             <small style="color: #ccc; font-size: 0.85rem;">
               Max file size: 5 MB
             </small>
           </div>
 
-          <!-- Create Password -->
+          <!-- Password -->
           <div class="form-group">
             <label for="teacherPassword">Password</label>
             <div class="password-wrapper">
@@ -185,19 +421,17 @@
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" class="btn btn-primary btn-block">
-            Submit Application
-          </button>
+          <button type="submit">Submit Application</button>
 
           <!-- Already Applied/Login Link -->
-          <p class="auth-footer-text" style="margin-top: 1.5rem;">
+          <p style="text-align: center; margin-top: 1rem; color: #ccc; font-size: 0.9rem;">
             Already applied?  
             <a href="login-teacher.html" class="auth-link">Log in here</a>
           </p>
 
-          <!-- Error / Success Messages -->
-          <p id="teacherError" style="color: #ff6f61; text-align: center; margin-top: 1rem;"></p>
-          <p id="teacherSuccess" style="color: #4caf50; text-align: center; margin-top: 1rem;"></p>
+          <!-- Error & Success Messages -->
+          <p id="teacherError" class="error-message"></p>
+          <p id="teacherSuccess" class="success-message"></p>
         </form>
       </div>
     </div>
@@ -215,12 +449,81 @@
     </div>
   </footer>
 
-  <!-- ====== INLINE JAVASCRIPT FOR APPLICATION LOGIC ====== -->
+  <!-- ====== Google Maps & Application Logic ====== -->
+  <!-- 1) Load Google Maps JS (replace YOUR_GOOGLE_MAPS_API_KEY_HERE) -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY_HERE&callback=initMap"
+    async
+    defer
+  ></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Toggle password visibility (for both password fields)
-      const toggleButtons = document.querySelectorAll('.toggle-password');
-      toggleButtons.forEach(btn => {
+      // Variables for map and marker
+      let map, marker;
+
+      // Initialize Google Map
+      window.initMap = function () {
+        const defaultLocation = { lat: -17.8249, lng: 31.0498 }; // Center on Harare by default
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: defaultLocation,
+          zoom: 12,
+          styles: [ /* Optional: Add dark‐mode map styling here */ ],
+        });
+
+        // If browser supports geolocation, try to get user location
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            position => {
+              const userLoc = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+              };
+              map.setCenter(userLoc);
+              placeMarker(userLoc);
+            },
+            () => {
+              // If geolocation fails or denied, place marker at default
+              placeMarker(defaultLocation);
+            }
+          );
+        } else {
+          placeMarker(defaultLocation);
+        }
+
+        // On map click, move marker
+        map.addListener('click', function (e) {
+          placeMarker(e.latLng);
+        });
+      };
+
+      // Place (or move) marker and store lat/lng in hidden inputs
+      function placeMarker(location) {
+        if (marker) {
+          marker.setPosition(location);
+        } else {
+          marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            draggable: true,
+          });
+          // When user drags marker, update hidden fields
+          marker.addListener('dragend', () => {
+            const pos = marker.getPosition();
+            updateLatLngInputs(pos.lat(), pos.lng());
+          });
+        }
+        updateLatLngInputs(location.lat, location.lng);
+      }
+
+      function updateLatLngInputs(lat, lng) {
+        document.getElementById('teacherLat').value = lat;
+        document.getElementById('teacherLng').value = lng;
+      }
+
+      // Toggle password visibility
+      document.querySelectorAll('.toggle-password').forEach(btn => {
         btn.addEventListener('click', () => {
           const pwdInput = btn.previousElementSibling;
           if (pwdInput.getAttribute('type') === 'password') {
@@ -233,7 +536,7 @@
         });
       });
 
-      // Helpers: localStorage for teacher applications
+      // Helpers for localStorage
       function getApplications() {
         return JSON.parse(localStorage.getItem('teacherApplications') || '[]');
       }
@@ -250,74 +553,76 @@
         errorPara.textContent = '';
         successPara.textContent = '';
 
-        // Collect basic fields
+        // Collect values
         const fullName = document.getElementById('teacherFullName').value.trim();
-        const emailInput = document.getElementById('teacherEmail');
-        const email = emailInput.value.trim().toLowerCase();
+        const email = document.getElementById('teacherEmail').value.trim().toLowerCase();
         const phone = document.getElementById('teacherPhone').value.trim();
         const subjectsRaw = document.getElementById('teacherSubjects').value.trim();
-        const subjects = subjectsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+        const subjects = subjectsRaw.split(',').map(s => s.trim()).filter(Boolean);
         const qualification = document.getElementById('teacherQualification').value.trim();
         const bio = document.getElementById('teacherBio').value.trim();
+        const hasInPersonSpace = document.getElementById('hasInPersonSpace').checked;
+        const latitude = document.getElementById('teacherLat').value;
+        const longitude = document.getElementById('teacherLng').value;
         const password = document.getElementById('teacherPassword').value;
         const confirmPassword = document.getElementById('teacherConfirmPassword').value;
 
         const resumeInput = document.getElementById('teacherResume');
         const docsInput = document.getElementById('teacherDocs');
 
-        // Basic HTML5 form validity
+        // Basic HTML5 validity
         if (!form.checkValidity()) {
           form.reportValidity();
           return;
         }
 
-        // Ensure passwords match
+        // Password match check
         if (password !== confirmPassword) {
           errorPara.textContent = 'Passwords do not match.';
           return;
         }
 
-        // Ensure both files are selected
+        // Ensure file uploads exist
         if (!resumeInput.files.length) {
           errorPara.textContent = 'Please upload your Resume/CV (PDF).';
           return;
         }
         if (!docsInput.files.length) {
-          errorPara.textContent = 'Please upload your Qualification Documents (PDF).';
+          errorPara.textContent = 'Please upload your Qualification Docs (PDF).';
           return;
         }
 
-        // Validate file types & sizes (<5MB)
+        // Retrieve the selected files
         const resumeFile = resumeInput.files[0];
         const docsFile = docsInput.files[0];
         const maxSize = 5 * 1024 * 1024; // 5 MB
 
+        // Validate file types & sizes
         if (resumeFile.type !== 'application/pdf') {
           errorPara.textContent = 'Resume must be a PDF file.';
           return;
         }
         if (resumeFile.size > maxSize) {
-          errorPara.textContent = 'Resume file size must be < 5 MB.';
+          errorPara.textContent = 'Resume file size must be under 5 MB.';
           return;
         }
         if (docsFile.type !== 'application/pdf') {
-          errorPara.textContent = 'Qualification documents must be a PDF.';
+          errorPara.textContent = 'Qualification docs must be a PDF file.';
           return;
         }
         if (docsFile.size > maxSize) {
-          errorPara.textContent = 'Qualification documents file size must be < 5 MB.';
+          errorPara.textContent = 'Qualification docs file size must be under 5 MB.';
           return;
         }
 
-        // Check for duplicate applications by email
+        // Check for duplicate email
         const applications = getApplications();
-        const existing = applications.find(a => a.email === email);
-        if (existing) {
+        if (applications.some(a => a.email === email)) {
           errorPara.textContent = 'An application with this email already exists.';
           return;
         }
 
-        // Read both PDFs as Base64 Data URLs
+        // Read files as Base64
         const readFileAsDataURL = file =>
           new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -326,10 +631,9 @@
             reader.readAsDataURL(file);
           });
 
-        // Once both are read, store the application
         Promise.all([readFileAsDataURL(resumeFile), readFileAsDataURL(docsFile)])
           .then(([resumeDataURL, docsDataURL]) => {
-            // Construct new application object
+            // Build application object
             const newApplication = {
               fullName,
               email,
@@ -337,7 +641,10 @@
               subjects,
               qualification,
               bio,
-              password, // In real app, hash this!
+              hasInPersonSpace,
+              latitude,
+              longitude,
+              password, // In real app, do NOT store raw passwords!
               resumeFileName: resumeFile.name,
               resumeData: resumeDataURL,
               docsFileName: docsFile.name,
@@ -345,15 +652,22 @@
               appliedAt: new Date().toISOString()
             };
 
-            // Save to localStorage
+            // Save and show success
             applications.push(newApplication);
             saveApplications(applications);
 
-            // Show success message
             successPara.textContent =
               'Application submitted! We will review your documents and get back to you.';
-            // Optionally, clear the form
             form.reset();
+
+            // Reset marker to default position (optional)
+            if (marker) {
+              marker.setPosition(map.getCenter());
+              updateLatLngInputs(
+                map.getCenter().lat(),
+                map.getCenter().lng()
+              );
+            }
           })
           .catch(err => {
             errorPara.textContent = 'Error reading files. Please try again.';
