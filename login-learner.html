@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Learner Login &mdash; Tuto</title>
 
-  <!-- Link to your existing CSS -->
+  <!-- Reuse the same stylesheet as homepage -->
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Same Google Font as homepage -->
+  <!-- Google Font (same as homepage) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -17,68 +17,80 @@
   />
 </head>
 <body>
-  <!-- Header with Logo -->
-  <header class="auth-header">
-    <div class="container auth-header-content">
-      <a href="index.html" class="auth-logo">Tuto</a>
+  <!-- ====== HEADER / MINI-HERO ====== -->
+  <header class="hero mini-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-in">
+      <h1 class="hero-title" style="font-size: 2.5rem;">Learner Login</h1>
+      <p class="hero-subtitle" style="font-size: 1rem; opacity: 0.8;">
+        Welcome back! Enter your credentials to continue.
+      </p>
     </div>
   </header>
 
-  <!-- Main Login Form Container -->
-  <main class="auth-main">
-    <div class="auth-card">
-      <h2 class="auth-heading">Learner Login</h2>
-      <form id="learnerLoginForm" class="auth-form" novalidate>
-        <!-- Email Field -->
-        <div class="form-group">
-          <label for="learnerEmail">Email</label>
-          <input
-            type="email"
-            id="learnerEmail"
-            name="email"
-            placeholder="you@example.com"
-            required
-          />
-        </div>
-
-        <!-- Password Field w/ Show/Hide Toggle -->
-        <div class="form-group">
-          <label for="learnerPassword">Password</label>
-          <div class="password-wrapper">
+  <!-- ====== LOGIN FORM CARD ====== -->
+  <main class="features-section" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="container">
+      <div class="auth-card fade-in" style="margin: 0 auto; max-width: 400px;">
+        <form id="learnerLoginForm" class="auth-form" novalidate>
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="learnerEmail">Email</label>
             <input
-              type="password"
-              id="learnerPassword"
-              name="password"
-              placeholder="••••••••"
+              type="email"
+              id="learnerEmail"
+              name="email"
+              placeholder="you@example.com"
               required
             />
-            <button
-              type="button"
-              class="toggle-password"
-              aria-label="Show or hide password"
-            >
-              👁️
-            </button>
           </div>
-        </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary btn-block">
-          Log In
-        </button>
+          <!-- Password Field w/ Show/Hide Toggle -->
+          <div class="form-group">
+            <label for="learnerPassword">Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="learnerPassword"
+                name="password"
+                placeholder="••••••••"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                aria-label="Show or hide password"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
 
-        <!-- Register Link -->
-        <p class="auth-footer-text">
-          Not registered? 
-          <a href="register-learner.html" class="auth-link">Create an account</a>
-        </p>
-      </form>
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-block">
+            Log In
+          </button>
+
+          <!-- Register Link -->
+          <p class="auth-footer-text">
+            Not registered? 
+            <a href="register-learner.html" class="auth-link">Create an account</a>
+          </p>
+        </form>
+      </div>
     </div>
   </main>
 
-  <!-- Optional Footer (minimal) -->
-  <footer class="auth-footer">
-    <p>&copy; 2025 Tuto. All rights reserved.</p>
+  <!-- ====== FOOTER ====== -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Tuto. All rights reserved.</p>
+      <ul class="social-links">
+        <li><a href="#" aria-label="Twitter">🐦</a></li>
+        <li><a href="#" aria-label="Facebook">📘</a></li>
+        <li><a href="#" aria-label="Instagram">📸</a></li>
+      </ul>
+    </div>
   </footer>
 
   <!-- Inline JavaScript for Show/Hide Password -->
