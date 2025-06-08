@@ -110,6 +110,25 @@
       color: var(--accent-light);
     }
 
+    /* ===== Checkbox styling ===== */
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--accent-light);
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #c8c8c8;
+    }
+
     /* ===== Google Map styling ===== */
     #map {
       width: 100%;
@@ -161,6 +180,15 @@
         height: 250px;
       }
     }
+
+    /* ===== Disabled (when Vocational is checked) ===== */
+    .disabled-field {
+      background-color: #333333 !important;
+      color: #777 !important;
+      border-color: #555 !important;
+      pointer-events: none;
+      opacity: 0.6;
+    }
   </style>
 </head>
 <body>
@@ -170,7 +198,7 @@
     <div class="hero-content fade-in">
       <h1 class="hero-title">Register as a Learner</h1>
       <p class="hero-subtitle">
-        Create your account and select your location for matching with tutors.
+        Create your account, select your curriculum, and pinpoint your location.
       </p>
     </div>
   </header>
@@ -205,20 +233,57 @@
             />
           </div>
 
+          <!-- Guardian Email -->
+          <div class="form-group">
+            <label for="guardianEmail">Guardian’s Email</label>
+            <input
+              type="email"
+              id="guardianEmail"
+              name="guardianEmail"
+              placeholder="guardian@example.com"
+              required
+            />
+            <small style="color: #ccc; font-size: 0.85rem;">
+              Progress reports and attendance will be sent here.
+            </small>
+          </div>
+
+          <!-- Vocational Checkbox -->
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="isVocational"
+              name="isVocational"
+            />
+            <label for="isVocational">
+              This is a vocational student (I do not need grade or curriculum)
+            </label>
+          </div>
+
           <!-- Grade / Level -->
           <div class="form-group">
             <label for="learnerGrade">Grade / Level</label>
             <select id="learnerGrade" name="grade" required>
               <option value="" disabled selected>Choose your grade</option>
-              <option value="Primary 1">Primary 1</option>
-              <option value="Primary 2">Primary 2</option>
-              <option value="Primary 3">Primary 3</option>
-              <option value="Primary 4">Primary 4</option>
-              <option value="Primary 5">Primary 5</option>
-              <option value="Primary 6">Primary 6</option>
-              <option value="Primary 7">Primary 7</option>
-              <option value="O-Level">O-Level (Form 1–4)</option>
-              <option value="A-Level">A-Level (Form 5–6)</option>
+              <optgroup label="O-Level">
+                <option value="O-Level: Form 1 & 2">Form 1 & 2</option>
+                <option value="O-Level: Form 3 & 4">Form 3 & 4</option>
+              </optgroup>
+              <optgroup label="A-Level">
+                <option value="A-Level: Arts">Arts</option>
+                <option value="A-Level: Commercials">Commercials</option>
+                <option value="A-Level: Sciences">Sciences</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- Curriculum Type -->
+          <div class="form-group">
+            <label for="curriculumType">Curriculum Type</label>
+            <select id="curriculumType" name="curriculum" required>
+              <option value="" disabled selected>Choose curriculum</option>
+              <option value="ZIMSEC">ZIMSEC</option>
+              <option value="Cambridge">Cambridge</option>
             </select>
           </div>
 
@@ -310,6 +375,7 @@
     async
     defer
   ></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Map & marker variables
@@ -388,6 +454,25 @@
         });
       });
 
+      // Enable/disable Grade & Curriculum based on Vocational checkbox
+      const isVocationalCheckbox = document.getElementById('isVocational');
+      const gradeSelect = document.getElementById('learnerGrade');
+      const curriculumSelect = document.getElementById('curriculumType');
+
+      isVocationalCheckbox.addEventListener('change', () => {
+        const disabled = isVocationalCheckbox.checked;
+        // Toggle required attribute
+        gradeSelect.required = !disabled;
+        curriculumSelect.required = !disabled;
+        // Toggle disabled styling
+        gradeSelect.classList.toggle('disabled-field', disabled);
+        curriculumSelect.classList.toggle('disabled-field', disabled);
+        if (disabled) {
+          gradeSelect.value = '';
+          curriculumSelect.value = '';
+        }
+      });
+
       // Helpers for localStorage
       function getLearners() {
         return JSON.parse(localStorage.getItem('learners') || '[]');
@@ -408,13 +493,25 @@
         // Collect form values
         const fullName = document.getElementById('learnerFullName').value.trim();
         const email = document.getElementById('learnerEmail').value.trim().toLowerCase();
-        const grade = document.getElementById('learnerGrade').value;
+        const guardianEmail = document.getElementById('guardianEmail').value.trim().toLowerCase();
+        const isVocational = isVocationalCheckbox.checked;
+        const grade = gradeSelect.value;
+        const curriculum = curriculumSelect.value;
         const password = document.getElementById('learnerPassword').value;
         const confirmPassword = document.getElementById('learnerConfirmPassword').value;
         const latitude = document.getElementById('learnerLat').value;
         const longitude = document.getElementById('learnerLng').value;
 
-        // Basic HTML5 validity
+        // Basic HTML5 validity (this checks required fields)
+        // If vocational is checked, temporarily bypass grade/curriculum requirement:
+        if (!isVocational) {
+          // both gradeSelect and curriculumSelect are required
+          if (!gradeSelect.value || !curriculumSelect.value) {
+            form.reportValidity();
+            return;
+          }
+        }
+
         if (!form.checkValidity()) {
           form.reportValidity();
           return;
@@ -433,11 +530,14 @@
           return;
         }
 
-        // Create new learner object
+        // Build new learner object
         const newLearner = {
           fullName,
           email,
-          grade,
+          guardianEmail,
+          isVocational,
+          grade: isVocational ? 'Vocational' : grade,
+          curriculum: isVocational ? 'Vocational' : curriculum,
           password, // In production, hash this!
           latitude,
           longitude,
