@@ -11,14 +11,16 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
-  color: #e0e0e0;
-  background-color: #121212;
+  color: #eceff1;               /* Light grey text */
+  background-color: #0d0d0d;    /* Near-black background */
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Link styles */
@@ -29,14 +31,19 @@ a {
 
 a:hover,
 a:focus {
-  color: #ff5722; /* Accent on hover */
+  color: var(--accent-light);
 }
 
-/* Utility classes */
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
+/* Color variables */
+:root {
+  --accent-dark: #bf360c;       /* Dark burnt orange */
+  --accent: #d84315;            /* Vibrant burnt orange */
+  --accent-light: #ff5722;      /* Brighter orange for hovers */
+  --text-light: #eceff1;        /* Off-white */
+  --bg-dark: #0d0d0d;           /* Primary background */
+  --bg-mid: #1a1a1a;            /* Slightly lighter background */
+  --bg-light: #262626;          /* Card backgrounds */
+  --fade-duration: 1s;          /* Fade-in timing */
 }
 
 /* ----------------------------------------------
@@ -45,21 +52,53 @@ a:focus {
 .btn {
   display: inline-block;
   font-weight: 600;
-  text-align: center;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary {
-  background-color: #ff5722;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
   color: #fff;
   padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .btn-primary:hover {
-  background-color: #e64a19;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  background: var(--accent-light);
+}
+
+/* ----------------------------------------------
+   FADE-IN ANIMATION
+-------------------------------------------------*/
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp var(--fade-duration) ease-out forwards;
+}
+
+/* Staggered fade-in delays for child elements (optional) */
+.hero-content.fade-in {
+  animation-delay: 0.3s;
+}
+.features-section.fade-in {
+  animation-delay: 0.4s;
+}
+.howitworks-section.fade-in {
+  animation-delay: 0.5s;
 }
 
 /* ----------------------------------------------
@@ -72,7 +111,6 @@ a:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .hero-overlay {
@@ -81,7 +119,10 @@ a:focus {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(18, 18, 18, 0.75);
+  background: linear-gradient(
+    rgba(13, 13, 13, 0.8),
+    rgba(13, 13, 13, 0.4)
+  );
   z-index: 1;
 }
 
@@ -89,160 +130,209 @@ a:focus {
   position: relative;
   z-index: 2;
   text-align: center;
-  color: #ffffff;
+  color: var(--text-light);
   padding: 0 1rem;
+  max-width: 800px;
 }
 
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: 2px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.85;
+  margin-bottom: 2rem;
+  opacity: 0.9;
 }
 
 /* ----------------------------------------------
    SECTION HEADINGS
 -------------------------------------------------*/
 .section-heading {
-  color: #ffffff;
-  font-size: 2rem;
+  color: var(--text-light);
+  font-size: 2.25rem;
   font-weight: 600;
   text-align: center;
-  margin: 4rem 0 2rem 0;
+  margin: 3.5rem 0 1.5rem 0;
+  position: relative;
+}
+
+.section-heading::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--accent);
+  margin: 0.5rem auto 0 auto;
+  border-radius: 2px;
 }
 
 /* ----------------------------------------------
    FEATURES GRID
 -------------------------------------------------*/
 .features-section {
-  padding-bottom: 4rem;
+  background-color: var(--bg-dark);
+  padding: 0 0 4rem 0;
 }
 
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
-  margin-top: 1rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .feature-card {
-  background-color: #1f1f1f;
+  background-color: var(--bg-mid);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* Thumbnail with gradient overlay on hover */
+.feature-thumb {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
 }
 
 .feature-thumb img {
   width: 100%;
-  height: 160px;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.feature-thumb:hover img {
+  transform: scale(1.1);
+}
+
+.thumb-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feature-thumb:hover .thumb-overlay {
+  opacity: 1;
 }
 
 .feature-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-light);
   margin: 1rem;
 }
 
 .feature-desc {
   font-size: 0.95rem;
-  color: #d0d0d0;
+  color: #c8c8c8;
   margin: 0 1rem 1rem 1rem;
   flex-grow: 1;
 }
 
 .feature-link {
   font-weight: 600;
-  color: #ff5722;
+  color: #ffffff;
   padding: 0.75rem 1rem;
   text-align: center;
   margin: 1rem;
   border-radius: 4px;
-  background-color: #2a2a2a;
-  transition: background-color 0.2s, color 0.2s;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  transition: background 0.3s, transform 0.2s;
 }
 
 .feature-link:hover {
-  background-color: #333333;
-  color: #ffffff;
+  background: var(--accent-light);
+  transform: translateY(-2px);
 }
 
 /* ----------------------------------------------
    HOW IT WORKS
 -------------------------------------------------*/
 .howitworks-section {
-  background-color: #181818;
+  background-color: var(--bg-light);
   padding: 4rem 0;
 }
 
 .howitworks-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  margin-top: 1rem;
   width: 90%;
   max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
 .how-card {
-  background-color: #1f1f1f;
+  background-color: var(--bg-mid);
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 1.25rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .how-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
 }
 
 .how-thumb img {
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: transform 0.3s;
+}
+
+.how-thumb:hover img {
+  transform: rotate(-5deg) scale(1.05);
 }
 
 .how-text {
-  color: #e0e0e0;
+  color: var(--text-light);
 }
 
 .how-step {
   font-size: 1rem;
   font-weight: 600;
-  color: #ff5722;
-  margin-bottom: 0.25rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
 }
 
 /* ----------------------------------------------
    FOOTER
 -------------------------------------------------*/
 .site-footer {
-  background-color: #1a1a1a;
+  background-color: var(--bg-mid);
   padding: 2rem 0;
-  color: #888888;
+  color: #aaaaaa;
 }
 
 .footer-content {
@@ -266,13 +356,14 @@ a:focus {
 }
 
 .social-links li a {
-  font-size: 1.25rem;
-  color: #888888;
-  transition: color 0.2s;
+  font-size: 1.5rem;
+  color: #aaaaaa;
+  transition: color 0.3s, transform 0.3s;
 }
 
 .social-links li a:hover {
-  color: #ff5722;
+  color: var(--accent-light);
+  transform: translateY(-2px) scale(1.1);
 }
 
 /* ----------------------------------------------
@@ -284,6 +375,9 @@ a:focus {
   }
   .hero-subtitle {
     font-size: 1rem;
+  }
+  .section-heading {
+    font-size: 2rem;
   }
 }
 
