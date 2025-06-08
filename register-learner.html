@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Learner &mdash; Tuto</title>
+
+  <!-- Reuse existing stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <!-- ====== MINI-HERO ====== -->
+  <header class="hero mini-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-in">
+      <h1 class="hero-title" style="font-size: 2.5rem;">Register as a Learner</h1>
+      <p class="hero-subtitle" style="font-size: 1rem; opacity: 0.8;">
+        Create your account to begin your learning journey.
+      </p>
+    </div>
+  </header>
+
+  <!-- ====== REGISTRATION FORM CARD ====== -->
+  <main class="features-section" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="container">
+      <div class="auth-card fade-in" style="margin: 0 auto; max-width: 500px;">
+        <h2 class="auth-heading">Learner Information</h2>
+        <form id="registerLearnerForm" class="auth-form" novalidate>
+          <!-- Full Name -->
+          <div class="form-group">
+            <label for="learnerFullName">Full Name</label>
+            <input
+              type="text"
+              id="learnerFullName"
+              name="fullName"
+              placeholder="John Doe"
+              required
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="learnerEmail">Email</label>
+            <input
+              type="email"
+              id="learnerEmail"
+              name="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <!-- Grade Level -->
+          <div class="form-group">
+            <label for="learnerGrade">Grade / Level</label>
+            <select id="learnerGrade" name="grade" required>
+              <option value="" disabled selected>Choose your grade</option>
+              <option value="Primary 1">Primary 1</option>
+              <option value="Primary 2">Primary 2</option>
+              <option value="Primary 3">Primary 3</option>
+              <option value="Primary 4">Primary 4</option>
+              <option value="Primary 5">Primary 5</option>
+              <option value="Primary 6">Primary 6</option>
+              <option value="Primary 7">Primary 7</option>
+              <option value="O-Level">O-Level (Form 1–4)</option>
+              <option value="A-Level">A-Level (Form 5–6)</option>
+            </select>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="learnerPassword">Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="learnerPassword"
+                name="password"
+                placeholder="••••••••"
+                minlength="6"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                aria-label="Show or hide password"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="learnerConfirmPassword">Confirm Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="learnerConfirmPassword"
+                name="confirmPassword"
+                placeholder="••••••••"
+                minlength="6"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                aria-label="Show or hide password"
+              >
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary btn-block">
+            Register
+          </button>
+
+          <!-- Already have account -->
+          <p class="auth-footer-text" style="margin-top: 1.5rem;">
+            Already have an account? 
+            <a href="login-learner.html" class="auth-link">Log in here</a>
+          </p>
+
+          <!-- Error Message Placeholder -->
+          <p id="learnerError" style="color: #ff6f61; text-align: center; margin-top: 1rem;"></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Tuto. All rights reserved.</p>
+      <ul class="social-links">
+        <li><a href="#" aria-label="Twitter">🐦</a></li>
+        <li><a href="#" aria-label="Facebook">📘</a></li>
+        <li><a href="#" aria-label="Instagram">📸</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Inline JavaScript for Form Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Toggle password visibility (works for both password fields)
+      const toggleButtons = document.querySelectorAll('.toggle-password');
+      toggleButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Find the sibling input of type password or text
+          const pwdInput = btn.previousElementSibling;
+          if (pwdInput.getAttribute('type') === 'password') {
+            pwdInput.setAttribute('type', 'text');
+            btn.textContent = '🙈';
+          } else {
+            pwdInput.setAttribute('type', 'password');
+            btn.textContent = '👁️';
+          }
+        });
+      });
+
+      // Retrieve existing learners from localStorage (or initialize as empty array)
+      function getLearners() {
+        return JSON.parse(localStorage.getItem('learners') || '[]');
+      }
+      function saveLearners(arr) {
+        localStorage.setItem('learners', JSON.stringify(arr));
+      }
+
+      const form = document.getElementById('registerLearnerForm');
+      const errorPara = document.getElementById('learnerError');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorPara.textContent = '';
+
+        // Collect form values
+        const fullName = document.getElementById('learnerFullName').value.trim();
+        const email = document.getElementById('learnerEmail').value.trim().toLowerCase();
+        const grade = document.getElementById('learnerGrade').value;
+        const password = document.getElementById('learnerPassword').value;
+        const confirmPassword = document.getElementById('learnerConfirmPassword').value;
+
+        // Basic HTML5 validation
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        // Check password match
+        if (password !== confirmPassword) {
+          errorPara.textContent = 'Passwords do not match.';
+          return;
+        }
+
+        // Retrieve current learners and check for duplicate email
+        const learners = getLearners();
+        const existing = learners.find(l => l.email === email);
+        if (existing) {
+          errorPara.textContent = 'An account with this email already exists.';
+          return;
+        }
+
+        // Create new learner object (you could hash password in real app)
+        const newLearner = { fullName, email, grade, password };
+
+        // Save into localStorage
+        learners.push(newLearner);
+        saveLearners(learners);
+
+        // Redirect to login page (with a success message via query param)
+        window.location.href = 'login-learner.html?registered=1';
+      });
+    });
+  </script>
+</body>
+</html>
