@@ -5,35 +5,197 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Teacher Login &mdash; Tuto</title>
 
-  <!-- Reuse the same stylesheet as homepage -->
+  <!-- Link to your existing CSS -->
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Google Font (same as homepage) -->
+  <!-- Google Font (Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
     rel="stylesheet"
   />
+
+  <!-- Additional CSS to match register/apply style -->
+  <style>
+    :root {
+      --input-bg: #2a2a2a;
+      --input-border: #444;
+      --input-focus-border: var(--accent);
+      --card-bg: #1f1f1f;
+    }
+
+    /* Mini-hero */
+    .mini-hero {
+      height: 35vh;
+      min-height: 200px;
+    }
+    .mini-hero .hero-content {
+      padding: 1rem;
+      text-align: center;
+    }
+    .mini-hero .hero-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .mini-hero .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-light);
+      opacity: 0.85;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Application-card wrapper */
+    .application-card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      padding: 2.5rem 2rem;
+      max-width: 500px;
+      margin: 2rem auto;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    .application-card h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    /* Form fields */
+    .application-form .form-group {
+      margin-bottom: 1.75rem;
+    }
+    .application-form label {
+      display: block;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #c8c8c8;
+      margin-bottom: 0.5rem;
+    }
+    .application-form input[type="email"],
+    .application-form input[type="password"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
+      background-color: var(--input-bg);
+      color: var(--text-light);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .application-form input:focus {
+      border-color: var(--input-focus-border);
+      box-shadow: 0 0 8px rgba(216, 67, 21, 0.4);
+    }
+
+    /* Password toggle */
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper input {
+      padding-right: 3rem;
+    }
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: #c8c8c8;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .toggle-password:hover {
+      color: var(--accent-light);
+    }
+
+    /* Submit button */
+    .application-form button[type="submit"] {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.85rem 1.5rem;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff;
+      border: none;
+      width: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .application-form button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+      background: var(--accent-light);
+    }
+
+    /* Error & success messages */
+    .error-message {
+      color: #ff6f61;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .success-message {
+      color: #4caf50;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* Success banner for “registered=1” */
+    .registered-banner {
+      background-color: #2e7d32;
+      color: #ffffff;
+      padding: 0.75rem;
+      text-align: center;
+      font-weight: 600;
+      animation: fadeInUp 0.8s ease-out forwards;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .application-card {
+        padding: 1.75rem 1rem;
+        margin: 1.5rem 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- ====== HEADER / MINI-HERO ====== -->
+  <!-- ====== MINI-HERO ====== -->
   <header class="hero mini-hero">
     <div class="hero-overlay"></div>
     <div class="hero-content fade-in">
-      <h1 class="hero-title" style="font-size: 2.5rem;">Teacher Login</h1>
-      <p class="hero-subtitle" style="font-size: 1rem; opacity: 0.8;">
-        Welcome back! Enter your credentials to manage your classes.
-      </p>
+      <h1 class="hero-title">Teacher Login</h1>
+      <p class="hero-subtitle">Enter your credentials to manage your classes</p>
     </div>
   </header>
 
+  <!-- ====== REGISTRATION SUCCESS BANNER ====== -->
+  <div id="registeredBanner" class="registered-banner" style="display: none;">
+    Registration successful! You may now log in.
+  </div>
+
   <!-- ====== LOGIN FORM CARD ====== -->
-  <main class="features-section" style="padding-top: 2rem; padding-bottom: 4rem;">
+  <main class="features-section" style="padding-top: 1rem; padding-bottom: 2rem;">
     <div class="container">
-      <div class="auth-card fade-in" style="margin: 0 auto; max-width: 400px;">
-        <form id="teacherLoginForm" class="auth-form" novalidate>
-          <!-- Email Field -->
+      <div class="application-card">
+        <h2>Log In as Teacher</h2>
+        <form id="teacherLoginForm" class="application-form" novalidate>
+          <!-- Email -->
           <div class="form-group">
             <label for="teacherEmail">Email</label>
             <input
@@ -45,7 +207,7 @@
             />
           </div>
 
-          <!-- Password Field w/ Show/Hide Toggle -->
+          <!-- Password -->
           <div class="form-group">
             <label for="teacherPassword">Password</label>
             <div class="password-wrapper">
@@ -60,22 +222,21 @@
                 type="button"
                 class="toggle-password"
                 aria-label="Show or hide password"
-              >
-                👁️
-              </button>
+              >👁️</button>
             </div>
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" class="btn btn-primary btn-block">
-            Log In
-          </button>
+          <button type="submit">Log In</button>
 
-          <!-- Registration Link -->
-          <p class="auth-footer-text">
-            New to Tuto? 
-            <a href="apply-teacher.html" class="auth-link">Apply as a Teacher</a>
+          <!-- No account? -->
+          <p style="text-align: center; margin-top: 1rem; color: #ccc; font-size: 0.9rem;">
+            New here? 
+            <a href="apply-teacher.html" class="auth-link">Apply as a teacher</a>
           </p>
+
+          <!-- Error Message -->
+          <p id="teacherError" class="error-message"></p>
         </form>
       </div>
     </div>
@@ -93,31 +254,55 @@
     </div>
   </footer>
 
-  <!-- Inline JavaScript for Show/Hide Password -->
+  <!-- ====== INLINE JAVASCRIPT ====== -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const toggleBtn = document.querySelector('.toggle-password');
-      const passwordField = document.getElementById('teacherPassword');
+      // Show “Registration successful” banner if ?registered=1
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('registered') === '1') {
+        document.getElementById('registeredBanner').style.display = 'block';
+      }
 
+      // Toggle password visibility
+      const toggleBtn = document.querySelector('.toggle-password');
+      const pwdInput = document.getElementById('teacherPassword');
       toggleBtn.addEventListener('click', () => {
-        const type = passwordField.getAttribute('type');
-        if (type === 'password') {
-          passwordField.setAttribute('type', 'text');
+        if (pwdInput.getAttribute('type') === 'password') {
+          pwdInput.setAttribute('type', 'text');
           toggleBtn.textContent = '🙈';
         } else {
-          passwordField.setAttribute('type', 'password');
+          pwdInput.setAttribute('type', 'password');
           toggleBtn.textContent = '👁️';
         }
       });
 
-      // Basic HTML5 validation handling
+      // Handle login
       const form = document.getElementById('teacherLoginForm');
+      const errorPara = document.getElementById('teacherError');
+
       form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorPara.textContent = '';
+
+        const email = document.getElementById('teacherEmail').value.trim().toLowerCase();
+        const password = document.getElementById('teacherPassword').value;
+
+        // Basic HTML5 validation
         if (!form.checkValidity()) {
-          e.preventDefault();
           form.reportValidity();
+          return;
         }
-        // Otherwise, allow the form to submit to your back-end
+
+        // Check localStorage for teacher applications
+        const teachers = JSON.parse(localStorage.getItem('teacherApplications') || '[]');
+        const user = teachers.find(t => t.email === email && t.password === password);
+        if (user) {
+          // In a real app, redirect to dashboard
+          alert('Login successful! Welcome, ' + user.fullName + '.');
+          // window.location.href = 'dashboard-teacher.html?email=' + encodeURIComponent(email);
+        } else {
+          errorPara.textContent = 'Incorrect email or password.';
+        }
       });
     });
   </script>
