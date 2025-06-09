@@ -245,11 +245,11 @@
     <div class="container">
       <div class="application-card">
         <h2>Teacher Application</h2>
-        <!-- Note: action points to your Vercel function -->
+        <!-- Note: action now points to your Vercel function endpoint -->
         <form
           id="teacherApplicationForm"
           class="application-form"
-          action="https://tuto-sepia.vercel.app"
+          action="https://tuto-sepia.vercel.app/api/apply"
           method="POST"
           enctype="multipart/form-data"
           novalidate
@@ -457,7 +457,7 @@
 
           <!-- Already Applied/Login Link -->
           <p style="text-align: center; margin-top: 1rem; color: #ccc; font-size: 0.9rem;">
-            Already applied?  
+            Already applied?
             <a href="login-teacher.html" class="auth-link">Log in here</a>
           </p>
 
@@ -482,11 +482,13 @@
   </footer>
 
   <!-- ====== Google Maps & Submission Logic ====== -->
+  <!-- Commented out until you have a valid API key:
   <script
     src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY_HERE&callback=initMap"
     async
     defer
   ></script>
+  -->
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
