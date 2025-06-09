@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apply as Teacher &mdash; Tuto</title>
+  <title>Apply as Teacher — Tuto</title>
 
   <!-- Link to your existing CSS -->
   <link rel="stylesheet" href="css/style.css" />
@@ -245,7 +245,15 @@
     <div class="container">
       <div class="application-card">
         <h2>Teacher Application</h2>
-        <form id="teacherApplicationForm" class="application-form" novalidate>
+        <!-- Note: action points to your Vercel function -->
+        <form
+          id="teacherApplicationForm"
+          class="application-form"
+          action="https://tuto-backend.vercel.app/api/apply"
+          method="POST"
+          enctype="multipart/form-data"
+          novalidate
+        >
           <!-- Full Name -->
           <div class="form-group">
             <label for="teacherFullName">Full Name</label>
@@ -330,7 +338,7 @@
               name="hasEquipment"
             />
             <label for="hasEquipment">
-              I have the necessary equipment (tools/machines) for vocational training
+              I have the necessary equipment (tools/machines)
             </label>
           </div>
 
@@ -473,8 +481,7 @@
     </div>
   </footer>
 
-  <!-- ====== Google Maps & Application Logic ====== -->
-  <!-- Replace with your actual API key -->
+  <!-- ====== Google Maps & Submission Logic ====== -->
   <script
     src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY_HERE&callback=initMap"
     async
@@ -483,23 +490,20 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Map & marker variables
       let map, marker;
 
-      // Initialize Google Map
       window.initMap = function () {
         const defaultLocation = { lat: -17.8249, lng: 31.0498 }; // Harare
 
         map = new google.maps.Map(document.getElementById('map'), {
           center: defaultLocation,
           zoom: 12,
-          styles: [ /* Optional: dark-mode map styling */ ],
+          styles: [], // optional custom styling
         });
 
-        // Try HTML5 geolocation
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
-            position => {
+            (position) => {
               const userLoc = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
@@ -508,7 +512,6 @@
               placeMarker(userLoc);
             },
             () => {
-              // If user denies or fails, use default
               placeMarker(defaultLocation);
             }
           );
@@ -516,13 +519,11 @@
           placeMarker(defaultLocation);
         }
 
-        // On map click, move marker
-        map.addListener('click', function (e) {
+        map.addListener('click', (e) => {
           placeMarker(e.latLng);
         });
       };
 
-      // Place (or move) marker and update hidden inputs
       function placeMarker(location) {
         if (marker) {
           marker.setPosition(location);
@@ -532,7 +533,6 @@
             map: map,
             draggable: true,
           });
-          // When user drags marker, update hidden fields
           marker.addListener('dragend', () => {
             const pos = marker.getPosition();
             updateLatLngInputs(pos.lat(), pos.lng());
@@ -547,73 +547,46 @@
       }
 
       // Toggle password visibility
-      document.querySelectorAll('.toggle-password').forEach(btn => {
+      document.querySelectorAll('.toggle-password').forEach((btn) => {
         btn.addEventListener('click', () => {
           const pwdInput = btn.previousElementSibling;
           if (pwdInput.getAttribute('type') === 'password') {
             pwdInput.setAttribute('type', 'text');
-            btn.textContent = '🙈'; // hide icon
+            btn.textContent = '🙈';
           } else {
             pwdInput.setAttribute('type', 'password');
-            btn.textContent = '👁️'; // show icon
+            btn.textContent = '👁️';
           }
         });
       });
 
-      // Helpers: localStorage for teacher applications
-      function getApplications() {
-        return JSON.parse(localStorage.getItem('teacherApplications') || '[]');
-      }
-      function saveApplications(arr) {
-        localStorage.setItem('teacherApplications', JSON.stringify(arr));
-      }
-
-      // Grab form and message elements
+      // Form submission via Fetch API to Vercel
       const form = document.getElementById('teacherApplicationForm');
       const errorPara = document.getElementById('teacherError');
       const successPara = document.getElementById('teacherSuccess');
 
-      form.addEventListener('submit', function (e) {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         errorPara.textContent = '';
         successPara.textContent = '';
 
-        // Collect base fields
-        const fullName = document.getElementById('teacherFullName').value.trim();
-        const email = document.getElementById('teacherEmail').value.trim().toLowerCase();
-        const phone = document.getElementById('teacherPhone').value.trim();
-        const subjectsRaw = document.getElementById('teacherSubjects').value.trim();
-        const subjects = subjectsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
-        const qualification = document.getElementById('teacherQualification').value.trim();
-        const bio = document.getElementById('teacherBio').value.trim();
-        const isVocational = document.getElementById('isVocational').checked;
-        const hasEquipment = document.getElementById('hasEquipment').checked;
-        const hasSmallClassSpace = document.getElementById('hasSmallClassSpace').checked;
-        const password = document.getElementById('teacherPassword').value;
-        const confirmPassword = document.getElementById('teacherConfirmPassword').value;
-        const latitude = document.getElementById('teacherLat').value;
-        const longitude = document.getElementById('teacherLng').value;
-
-        // File inputs
-        const resumeInput = document.getElementById('teacherResume');
-        const docsInput = document.getElementById('teacherDocs');
-
-        // Basic HTML5 validity
+        // Basic HTML5 validation
         if (!form.checkValidity()) {
           form.reportValidity();
           return;
         }
 
-        // If not vocational, ensure subjects & qualification are present (already required by HTML)
-        // No extra check needed since those fields are `required`.
-
-        // Password match
+        // Password match check
+        const password = document.getElementById('teacherPassword').value;
+        const confirmPassword = document.getElementById('teacherConfirmPassword').value;
         if (password !== confirmPassword) {
           errorPara.textContent = 'Passwords do not match.';
           return;
         }
 
-        // Ensure file uploads exist
+        // Ensure PDFs are selected
+        const resumeInput = document.getElementById('teacherResume');
+        const docsInput = document.getElementById('teacherDocs');
         if (!resumeInput.files.length) {
           errorPara.textContent = 'Please upload your Resume/CV (PDF).';
           return;
@@ -624,10 +597,9 @@
         }
 
         // Validate file types & sizes
+        const maxSize = 5 * 1024 * 1024; // 5 MB
         const resumeFile = resumeInput.files[0];
         const docsFile = docsInput.files[0];
-        const maxSize = 5 * 1024 * 1024; // 5 MB
-
         if (resumeFile.type !== 'application/pdf') {
           errorPara.textContent = 'Resume must be a PDF file.';
           return;
@@ -645,67 +617,29 @@
           return;
         }
 
-        // Check for duplicate email
-        const applications = getApplications();
-        if (applications.some(a => a.email === email)) {
-          errorPara.textContent = 'An application with this email already exists.';
-          return;
-        }
+        // Build FormData
+        const formData = new FormData(form);
 
-        // Read PDFs as Base64
-        const readFileAsDataURL = file =>
-          new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => reject('Error reading file');
-            reader.readAsDataURL(file);
+        try {
+          const resp = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
           });
-
-        Promise.all([readFileAsDataURL(resumeFile), readFileAsDataURL(docsFile)])
-          .then(([resumeDataURL, docsDataURL]) => {
-            // Build application object
-            const newApplication = {
-              fullName,
-              email,
-              phone,
-              subjects,
-              qualification,
-              bio,
-              isVocational,
-              hasEquipment,
-              hasSmallClassSpace,
-              password, // In production, do NOT store raw passwords!
-              resumeFileName: resumeFile.name,
-              resumeData: resumeDataURL,
-              docsFileName: docsFile.name,
-              docsData: docsDataURL,
-              latitude,
-              longitude,
-              appliedAt: new Date().toISOString()
-            };
-
-            // Save to localStorage
-            applications.push(newApplication);
-            saveApplications(applications);
-
-            // Show success message
-            successPara.textContent =
-              'Application submitted! We will review your documents and get back to you.';
+          const data = await resp.json();
+          if (resp.ok && data.success) {
+            successPara.textContent = 'Application submitted! We will review your documents and get back to you.';
             form.reset();
-
-            // Reset marker to default position (optional)
             if (marker) {
               marker.setPosition(map.getCenter());
-              updateLatLngInputs(
-                map.getCenter().lat(),
-                map.getCenter().lng()
-              );
+              updateLatLngInputs(map.getCenter().lat(), map.getCenter().lng());
             }
-          })
-          .catch(err => {
-            errorPara.textContent = 'Error reading files. Please try again.';
-            console.error(err);
-          });
+          } else {
+            throw new Error(data.error || 'Submission failed.');
+          }
+        } catch (err) {
+          console.error(err);
+          errorPara.textContent = 'Oops—something went wrong. Please try again.';
+        }
       });
     });
   </script>
