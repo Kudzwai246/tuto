@@ -17,7 +17,7 @@
     :root {
       --input-bg: #2a2a2a;
       --input-border: #444;
-      --input-focus-border: var(--accent);
+      --input-focus: #d84315;
       --card-bg: #1f1f1f;
     }
     .mini-hero { height:35vh; min-height:200px; }
@@ -25,12 +25,11 @@
     .mini-hero .hero-title {
       font-size:2.25rem; font-weight:700;
       background:linear-gradient(90deg,var(--accent),var(--accent-light));
-      -webkit-background-clip:text; color:transparent;
+      -webkit-background-clip:text;color:transparent;
       margin-bottom:.5rem;
     }
-    .mini-hero .hero-subtitle {
-      font-size:1rem; color:var(--text-light); opacity:.85;
-    }
+    .mini-hero .hero-subtitle { font-size:1rem; color:var(--text-light); opacity:.85; }
+
     .application-card {
       background:var(--card-bg); border-radius:10px;
       box-shadow:0 6px 18px rgba(0,0,0,0.4);
@@ -47,7 +46,9 @@
       display:block; font-size:1rem; font-weight:500;
       color:#c8c8c8; margin-bottom:.5rem;
     }
-    .application-form input,
+    .application-form input[type=text],
+    .application-form input[type=email],
+    .application-form input[type=tel],
     .application-form textarea {
       width:100%; padding:.75rem 1rem;
       font-size:.95rem; border:1px solid var(--input-border);
@@ -57,31 +58,26 @@
     }
     .application-form input:focus,
     .application-form textarea:focus {
-      border-color:var(--input-focus-border);
+      border-color:var(--input-focus);
       box-shadow:0 0 8px rgba(216,67,21,.4);
     }
     .application-form textarea { resize:vertical; min-height:100px; }
 
-    /* file input with dynamic label */
-    .file-input-wrapper {
-      position:relative; overflow:hidden;
-      border:1px solid var(--input-border); border-radius:6px;
-      background:var(--input-bg);
+    .file-group {
+      position:relative; border:1px solid var(--input-border);
+      border-radius:6px; background:var(--input-bg);
+      padding:.5rem 1rem; color:#ccc; cursor:pointer;
     }
-    .file-input-wrapper input[type=file] {
-      opacity:0; width:100%; height:100%; cursor:pointer;
+    .file-group:hover { border-color:var(--input-focus); }
+    .file-group input {
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      opacity:0; cursor:pointer;
     }
-    .file-input-wrapper::before {
-      content: attr(data-label);
-      display:inline-block; padding:.5rem 1rem;
-      background:var(--accent); color:#fff; border-radius:6px;
-      font-size:.95rem; font-weight:500;
-    }
+    .file-group span { pointer-events:none; }
 
     .application-form button[type=submit] {
-      margin-top:.5rem; width:100%;
-      padding:.85rem 1.5rem; font-size:1rem; font-weight:600;
-      border:none; border-radius:6px;
+      width:100%; padding:.85rem 1.5rem; font-size:1rem;
+      font-weight:600; border:none; border-radius:6px;
       background:linear-gradient(135deg,var(--accent),var(--accent-light));
       color:#fff; transition:transform .2s,box-shadow .2s;
     }
@@ -100,132 +96,162 @@
 </head>
 <body>
 
-  <header class="hero mini-hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content fade-in">
-      <h1 class="hero-title">Apply as a Teacher</h1>
-      <p class="hero-subtitle">Submit your application, upload docs & set location</p>
-    </div>
-  </header>
+<header class="hero mini-hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content fade-in">
+    <h1 class="hero-title">Apply as a Teacher</h1>
+    <p class="hero-subtitle">Complete your application, upload docs & set location</p>
+  </div>
+</header>
 
-  <main>
-    <div class="application-card">
-      <h2>Teacher Application</h2>
-      <form id="appForm" class="application-form" novalidate>
-        <div class="form-group">
-          <label for="fullName">Full Name</label>
-          <input id="fullName" name="fullName" type="text" placeholder="Jane Smith" required/>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="you@example.com" required/>
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone</label>
-          <input id="phone" name="phone" type="tel"
-                 placeholder="+263771234567"
-                 pattern="^(+?[0-9]{7,15}|0[0-9]{9})$"
-                 required/>
-        </div>
-        <div class="form-group">
-          <label for="subjects">Subjects Taught</label>
-          <input id="subjects" name="subjects" type="text"
-                 placeholder="Math, English, Physics" required/>
-        </div>
-        <div class="form-group">
-          <label for="qualification">Highest Qualification</label>
-          <input id="qualification" name="qualification" type="text"
-                 placeholder="B.Ed in Secondary Education" required/>
-        </div>
-        <div class="form-group">
-          <label><input type="checkbox" id="isVoc" name="isVocational"/> I am a vocational instructor</label>
-        </div>
-        <div class="form-group">
-          <label><input type="checkbox" id="hasEquip" name="hasEquipment"/> I have the necessary equipment</label>
-        </div>
-        <div class="form-group">
-          <label><input type="checkbox" id="hasSpace" name="hasSmallClassSpace"/> I have space for up to 5 learners</label>
-        </div>
-        <div class="form-group">
-          <label for="bio">Tell Us About Yourself</label>
-          <textarea id="bio" name="bio" placeholder="A brief bio..." required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Upload Resume (PDF)</label>
-          <div class="file-input-wrapper" data-label="Choose PDF">
-            <input id="resume" name="resume" type="file" accept="application/pdf" required/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Upload Qualification Docs (PDF)</label>
-          <div class="file-input-wrapper" data-label="Choose PDF">
-            <input id="docs" name="docs" type="file" accept="application/pdf" required/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="location">Location</label>
-          <div id="map" style="width:100%;height:200px;background:#333;border-radius:6px;"></div>
-          <input type="hidden" id="lat" name="latitude" value="-17.8249"/>
-          <input type="hidden" id="lng" name="longitude" value="31.0498"/>
-        </div>
-        <button type="submit">Submit Application</button>
-        <p style="text-align:center;margin-top:1rem;color:#ccc;">
-          Already applied? <a href="login-teacher.html" class="auth-link">Log in here</a>
-        </p>
-        <p id="err" class="error-message"></p>
-        <p id="ok" class="success-message"></p>
-      </form>
-    </div>
-  </main>
+<main>
+  <div class="application-card">
+    <h2>Teacher Application</h2>
+    <form id="appForm" class="application-form" novalidate>
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" name="fullName" type="text" placeholder="Jane Smith" required/>
+      </div>
 
-  <script>
-    // show filename on selection
-    ['resume','docs'].forEach(id => {
-      const inp = document.getElementById(id);
-      inp.addEventListener('change', e => {
-        const file = e.target.files[0];
-        const wrapper = e.target.parentElement;
-        wrapper.setAttribute('data-label', file ? file.name : 'Choose PDF');
-      });
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel"
+               placeholder="+263771234567 or 0716858300"
+               pattern="^(\+?[0-9]{7,15}|0[0-9]{9})$"
+               required/>
+      </div>
+
+      <div class="form-group">
+        <label for="subjects">Subjects Taught</label>
+        <input id="subjects" name="subjects" type="text"
+               placeholder="Math, English, Physics" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="qualification">Highest Qualification</label>
+        <input id="qualification" name="qualification" type="text"
+               placeholder="B.Ed in Secondary Education" required/>
+      </div>
+
+      <div class="form-group">
+        <label><input type="checkbox" id="isVoc" name="isVocational"/> I am a vocational instructor</label>
+      </div>
+
+      <div class="form-group">
+        <label><input type="checkbox" id="hasEquip" name="hasEquipment"/> I have the necessary equipment</label>
+      </div>
+
+      <div class="form-group">
+        <label><input type="checkbox" id="hasSpace" name="hasSmallClassSpace"/> I have space for up to 5 learners</label>
+      </div>
+
+      <div class="form-group">
+        <label for="bio">Tell Us About Yourself</label>
+        <textarea id="bio" name="bio" placeholder="A brief bio..." required></textarea>
+      </div>
+
+      <div class="form-group file-group" id="resumeGroup">
+        <span id="resumeLabel">Choose Resume (PDF)</span>
+        <input id="resume" name="resume" type="file" accept="application/pdf" required/>
+      </div>
+
+      <div class="form-group file-group" id="docsGroup">
+        <span id="docsLabel">Choose Qualification Docs (PDF)</span>
+        <input id="docs" name="docs" type="file" accept="application/pdf" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Location</label>
+        <div id="map" style="width:100%;height:200px;background:#333;border-radius:6px;"></div>
+        <input type="hidden" id="lat" name="latitude" value="-17.8249"/>
+        <input type="hidden" id="lng" name="longitude" value="31.0498"/>
+      </div>
+
+      <button type="submit">Submit Application</button>
+
+      <p style="text-align:center;margin-top:1rem;color:#ccc;">
+        Already applied? <a href="login-teacher.html" class="auth-link">Log in here</a>
+      </p>
+
+      <p id="err" class="error-message"></p>
+      <p id="ok" class="success-message"></p>
+    </form>
+  </div>
+</main>
+
+<script>
+  // show selected filename
+  ['resume','docs'].forEach(id => {
+    document.getElementById(id).addEventListener('change', e => {
+      const file = e.target.files[0];
+      document.getElementById(id + 'Label').textContent =
+        file ? file.name : (id==='resume' ? 'Choose Resume (PDF)' : 'Choose Qualification Docs (PDF)');
+    });
+  });
+
+  document.getElementById('appForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    document.getElementById('err').textContent = '';
+    document.getElementById('ok').textContent = '';
+
+    const form = e.target;
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    // helper: base64
+    const toBase64 = file => new Promise((resolve,reject)=>{
+      const r = new FileReader();
+      r.onload = () => resolve(r.result.split(',')[1]);
+      r.onerror = () => reject('File read error');
+      r.readAsDataURL(file);
     });
 
-    document.getElementById('appForm').addEventListener('submit', async e => {
-      e.preventDefault();
-      const err = document.getElementById('err');
-      const ok  = document.getElementById('ok');
-      err.textContent = ''; ok.textContent = '';
-
-      const form = e.target;
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-
-      const toBase64 = file => new Promise((res, rej)=>{
-        const r=new FileReader();
-        r.onload=()=>res(r.result.split(',')[1]);
-        r.onerror=()=>rej('File read error');
-        r.readAsDataURL(file);
+    try {
+      const data = {
+        fullName: form.fullName.value.trim(),
+        email:    form.email.value.trim(),
+        phone:    form.phone.value.trim(),
+        subjects: form.subjects.value.trim(),
+        qualification: form.qualification.value.trim(),
+        bio:      form.bio.value.trim(),
+        isVocational: form.isVoc.checked,
+        hasEquipment: form.hasEquip.checked,
+        hasSmallClassSpace: form.hasSpace.checked,
+        latitude: form.latitude.value,
+        longitude: form.longitude.value
+      };
+      const resumeFile = form.resume.files[0];
+      const docsFile   = form.docs.files[0];
+      const [r64,d64] = await Promise.all([toBase64(resumeFile), toBase64(docsFile)]);
+      Object.assign(data, {
+        resumeName: resumeFile.name, resumeBase64: r64,
+        docsName: docsFile.name, docsBase64: d64
       });
 
-      try {
-        const data = {
-          fullName: form.fullName.value.trim(),
-          email: form.email.value.trim(),
-          phone: form.phone.value.trim(),
-          subjects: form.subjects.value.trim(),
-          qualification: form.qualification.value.trim(),
-          bio: form.bio.value.trim(),
-          isVocational: form.isVoc.checked,
-          hasEquipment: form.hasEquip.checked,
-          hasSmallClassSpace: form.hasSpace.checked,
-          latitude: form.latitude.value,
-          longitude: form.longitude.value
-        };
-        const resumeFile = form.resume.files[0];
-        const docsFile   = form.docs.files[0];
-        const [r64,d64] = await Promise.all([toBase64(resumeFile),toBase64(docsFile)]);
-        Object.assign(data,{
-          resumeName: resumeFile.name, resumeBase64: r64,
-          docsName: docsFile.name, docsBase64: d64
-        });
-
-        const resp = await fetch(
-          'https://script.google.com/macros/s/AKfycbxDttj739mRi6LXE9HP8AOtmvxh4i5K4LZ7o0ihntzVLKyKnYwvbT9q9G9c63duG_7lXg/exec?mode=apply',
+      const resp = await fetch(
+        'https://script.google.com/macros/s/AKfycbxDttj739mRi6LXE9HP8AOtmvxh4i5K4LZ7o0ihntzVLKyKnYwvbT9q9G9c63duG_7lXg/exec?mode=apply',
+        {
+          method: 'POST',
+          body: JSON.stringify(data)
+        }
+      );
+      const json = await resp.json();
+      if (resp.ok && json.success) {
+        form.reset();
+        document.getElementById('resumeLabel').textContent = 'Choose Resume (PDF)';
+        document.getElementById('docsLabel').textContent   = 'Choose Qualification Docs (PDF)';
+        document.getElementById('ok').textContent = 'Application submitted! We’ll be in touch.';
+      } else {
+        throw new Error(json.error || 'Submission failed');
+      }
+    } catch(err) {
+      document.getElementById('err').textContent = err.message || err;
+    }
+  });
+</script>
+</body>
+</html>
