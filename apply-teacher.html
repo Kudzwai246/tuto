@@ -229,20 +229,3 @@
 
         const resp = await fetch(
           'https://script.google.com/macros/s/AKfycbxDttj739mRi6LXE9HP8AOtmvxh4i5K4LZ7o0ihntzVLKyKnYwvbT9q9G9c63duG_7lXg/exec?mode=apply',
-          { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }
-        );
-        const json = await resp.json();
-        if (resp.ok && json.success) {
-          ok.textContent = 'Application submitted! We’ll be in touch.';
-          form.reset();
-          document.querySelectorAll('.file-input-wrapper').forEach(w=>w.setAttribute('data-label','Choose PDF'));
-        } else {
-          throw new Error(json.error||'Submission failed');
-        }
-      } catch(err) {
-        document.getElementById('err').textContent = err.message||err;
-      }
-    });
-  </script>
-</body>
-</html>
