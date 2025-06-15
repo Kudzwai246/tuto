@@ -4,91 +4,34 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Register Learner — Tuto</title>
-
-  <!-- Common CSS -->
   <link rel="stylesheet" href="css/style.css"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-
   <style>
     :root { --input-bg:#2a2a2a; --input-border:#444; --input-focus:#d84315; --card-bg:#1f1f1f; }
-    .mini-hero { height:35vh; min-height:200px; }
-    .mini-hero .hero-content { padding:1rem; text-align:center; }
-    .mini-hero .hero-title {
-      font-size:2.25rem; font-weight:700;
-      background:linear-gradient(90deg,var(--accent),var(--accent-light));
-      -webkit-background-clip:text; color:transparent; margin-bottom:.5rem;
-    }
-    .mini-hero .hero-subtitle { font-size:1rem; color:var(--text-light); opacity:.85; }
-
-    .application-card {
-      background:var(--card-bg); border-radius:10px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.4);
-      padding:2.5rem; max-width:600px; margin:2rem auto;
-      animation:fadeInUp .8s ease-out forwards;
-    }
-    .application-card h2 {
-      font-size:1.75rem; font-weight:600; color:var(--text-light);
-      text-align:center; margin-bottom:1.5rem;
-    }
-    .application-form .form-group { margin-bottom:1.75rem; }
-    .application-form label {
-      display:block; font-size:1rem; font-weight:500; color:#c8c8c8; margin-bottom:.5rem;
-    }
-    .application-form input[type=text],
-    .application-form input[type=email],
-    .application-form input[type=password],
-    .application-form select {
-      width:100%; padding:.75rem 1rem; font-size:.95rem;
-      border:1px solid var(--input-border); border-radius:6px;
-      background:var(--input-bg); color:var(--text-light);
-      outline:none; transition:border-color .2s, box-shadow .2s;
-    }
-    .application-form input:focus,
-    .application-form select:focus {
-      border-color:var(--input-focus); box-shadow:0 0 8px rgba(216,67,21,.4);
-    }
-    .password-wrapper { position:relative; }
-    .password-wrapper input { padding-right:3rem; }
-    .toggle-password {
-      position:absolute; top:50%; right:1rem; transform:translateY(-50%);
-      background:none; border:none; font-size:1.1rem; color:#c8c8c8; cursor:pointer;
-    }
-    .checkbox-group { display:flex; align-items:center; gap:.5rem; margin-bottom:1.75rem; }
-    #map { width:100%; height:300px; border-radius:6px; margin-bottom:1rem; }
-    .application-form button[type=submit] {
-      width:100%; padding:.85rem 1.5rem; font-size:1rem; font-weight:600;
-      border:none; border-radius:6px;
-      background:linear-gradient(135deg,var(--accent),var(--accent-light));
-      color:#fff; transition:transform .2s, box-shadow .2s;
-    }
-    .application-form button[type=submit]:hover {
-      transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.5);
-    }
-    .error-message { color:#ff6f61; text-align:center; margin-top:1rem; }
-    .success-message { color:#4caf50; text-align:center; margin-top:1rem; }
-    @media (max-width:600px) {
-      .application-card { padding:1.5rem; margin:1.5rem; }
-      #map { height:250px; }
-    }
+    body { font-family: Inter, sans-serif; background: #121212; color: #eee; margin:0; }
+    .mini-hero { background:#1f1f1f; color:#fff; padding:2rem; text-align:center; }
+    .application-card { background:var(--card-bg); margin:2rem auto; padding:2rem; border-radius:8px; max-width:600px; }
+    .application-card h2 { margin-bottom:1rem; }
+    .form-group { margin-bottom:1.5rem; }
+    label { display:block; margin-bottom:.5rem; color:#ccc; }
+    input, select { width:100%; padding:.75rem; border:1px solid var(--input-border); border-radius:4px; background:var(--input-bg); color:#eee; }
+    .checkbox-group { display:flex; align-items:center; margin-bottom:1.5rem; }
+    .checkbox-group input { margin-right:.5rem; }
+    button { width:100%; padding:.85rem; background:var(--input-focus); border:none; color:#fff; border-radius:4px; font-size:1rem; cursor:pointer; }
+    .error-message { color:#f66; text-align:center; }
+    .success-message { color:#6f6; text-align:center; }
+    #map { width:100%; height:200px; background:#333; margin-bottom:1rem; border-radius:4px; }
   </style>
 </head>
 <body>
 
-<header class="hero mini-hero">
-  <div class="hero-overlay"></div>
-  <div class="hero-content fade-in">
-    <h1 class="hero-title">Register as a Learner</h1>
-    <p class="hero-subtitle">Create your account, pick your curriculum, & set location</p>
+  <div class="mini-hero">
+    <h1>Register as a Learner</h1>
+    <p>Create your account, pick your curriculum & set location</p>
   </div>
-</header>
 
-<main>
   <div class="application-card">
     <h2>Learner Registration</h2>
-    <form id="registerLearnerForm" class="application-form" novalidate>
-
+    <form id="registerLearnerForm" novalidate>
       <div class="form-group">
         <label for="fullName">Full Name</label>
         <input id="fullName" name="fullName" type="text" placeholder="John Doe" required/>
@@ -100,14 +43,11 @@
       <div class="form-group">
         <label for="guardianEmail">Guardian’s Email</label>
         <input id="guardianEmail" name="guardianEmail" type="email" placeholder="guardian@example.com" required/>
-        <small style="color:#ccc; font-size:.85rem;">Progress reports & attendance go here.</small>
       </div>
-
       <div class="checkbox-group">
         <input type="checkbox" id="isVoc" name="isVocational"/>
         <label for="isVoc">Vocational student (no grade/curriculum)</label>
       </div>
-
       <div class="form-group">
         <label for="grade">Grade / Level</label>
         <select id="grade" name="grade" required>
@@ -131,112 +71,84 @@
           <option>Cambridge</option>
         </select>
       </div>
-
       <div class="form-group">
         <label for="password">Password</label>
-        <div class="password-wrapper">
-          <input id="password" name="password" type="password" minlength="6" required/>
-          <button type="button" class="toggle-password">👁️</button>
-        </div>
+        <input id="password" name="password" type="password" minlength="6" placeholder="••••••••" required/>
       </div>
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
-        <div class="password-wrapper">
-          <input id="confirmPassword" name="confirmPassword" type="password" minlength="6" required/>
-          <button type="button" class="toggle-password">👁️</button>
-        </div>
+        <input id="confirmPassword" name="confirmPassword" type="password" minlength="6" placeholder="••••••••" required/>
       </div>
-
-      <div class="form-group">
-        <label for="map">Your Location</label>
-        <div id="map"></div>
-        <input type="hidden" id="lat" name="latitude"/>
-        <input type="hidden" id="lng" name="longitude"/>
-      </div>
+      <div id="map"></div>
+      <input type="hidden" id="lat" name="latitude" value="-17.8249"/>
+      <input type="hidden" id="lng" name="longitude" value="31.0498"/>
 
       <button type="submit">Register</button>
-      <p style="text-align:center; color:#ccc; margin-top:1rem;">
-        Already have an account? <a href="login-learner.html">Log in here</a>
-      </p>
-
       <p id="err" class="error-message"></p>
       <p id="ok" class="success-message"></p>
     </form>
   </div>
-</main>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('Learner JS loaded');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Learner form script loaded');
+      const form = document.getElementById('registerLearnerForm');
+      const err  = document.getElementById('err');
+      const ok   = document.getElementById('ok');
+      const endpoint = 'https://script.google.com/macros/s/AKfycbxDttj739mRi6LXE9HP8AOtmvxh4i5K4LZ7o0ihntzVLKyKnYwvbT9q9G9c63duG_7lXg/exec?mode=registerLearner';
 
-  // Password toggles
-  document.querySelectorAll('.toggle-password').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const inp = btn.previousElementSibling;
-      if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-      else { inp.type = 'password'; btn.textContent = '👁️'; }
+      // Initialize a basic map placeholder or integrate your initMap here
+      // For now, we skip actual map code to focus on submit.
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        err.textContent = ''; ok.textContent = '';
+        console.log('Submitting learner form');
+
+        const fullName = form.fullName.value.trim(),
+              email    = form.email.value.trim().toLowerCase(),
+              guardian = form.guardianEmail.value.trim().toLowerCase(),
+              pw       = form.password.value,
+              cpw      = form.confirmPassword.value,
+              isV      = form.isVoc.checked,
+              gradeVal = isV ? 'Vocational' : form.grade.value,
+              currVal  = isV ? 'Vocational' : form.curriculum.value,
+              lat      = document.getElementById('lat').value,
+              lng      = document.getElementById('lng').value;
+
+        if (pw !== cpw) {
+          err.textContent = 'Passwords do not match.';
+          return;
+        }
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const payload = { fullName, email, guardianEmail: guardian,
+                          isVocational: isV, grade: gradeVal,
+                          curriculum: currVal, password: pw,
+                          latitude: lat, longitude: lng };
+
+        try {
+          console.log('POST to', endpoint, payload);
+          const resp = await fetch(endpoint, {
+            method:'POST',
+            body: JSON.stringify(payload)
+          });
+          const json = await resp.json();
+          console.log('Server response', resp.status, json);
+          if (resp.ok && json.success) {
+            ok.textContent = 'Registration submitted—check your email to verify!';
+          } else {
+            err.textContent = json.error || `Server error: ${resp.status}`;
+          }
+        } catch (networkErr) {
+          console.error('Network error', networkErr);
+          err.textContent = 'Network error — please try again.';
+        }
+      });
     });
-  });
-
-  // Vocational toggle
-  const isVoc  = document.getElementById('isVoc'),
-        grade  = document.getElementById('grade'),
-        curr   = document.getElementById('curriculum');
-  isVoc.addEventListener('change', () => {
-    const d = isVoc.checked;
-    grade.required = curr.required = !d;
-    grade.classList.toggle('disabled-field', d);
-    curr.classList.toggle('disabled-field', d);
-    if (d) { grade.value = ''; curr.value = ''; }
-  });
-
-  // Initialize map (reuse your initMap/placeMarker code)
-  // …
-
-  // Form submission
-  const form = document.getElementById('registerLearnerForm'),
-        err  = document.getElementById('err'),
-        ok   = document.getElementById('ok'),
-        endpoint = 'https://script.google.com/macros/s/AKfycbxDttj739mRi6LXE9HP8AOtmvxh4i5K4LZ7o0ihntzVLKyKnYwvbT9q9G9c63duG_7lXg/exec?mode=registerLearner
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault(); err.textContent=''; ok.textContent='';
-    console.log('Submitting learner form');
-
-    const fullName = form.fullName.value.trim(),
-          email    = form.email.value.trim().toLowerCase(),
-          guardian = form.guardianEmail.value.trim().toLowerCase(),
-          pw       = form.password.value,
-          cpw      = form.confirmPassword.value,
-          lat      = document.getElementById('lat').value,
-          lng      = document.getElementById('lng').value,
-          isV      = isVoc.checked,
-          gradeVal = isV ? 'Vocational' : grade.value,
-          currVal  = isV ? 'Vocational' : curr.value;
-
-    if (pw !== cpw) { err.textContent='Passwords do not match.'; return; }
-    if (!form.checkValidity()) { form.reportValidity(); return; }
-
-    const payload = {
-      fullName, email, guardianEmail: guardian,
-      isVocational: isV, grade: gradeVal,
-      curriculum: currVal, password: pw,
-      latitude: lat, longitude: lng
-    };
-
-    try {
-      console.log('POST to', endpoint, payload);
-      const resp = await fetch(endpoint, { method:'POST', body: JSON.stringify(payload) });
-      const json = await resp.json();
-      console.log('Response', resp.status, json);
-      if (resp.ok && json.success) ok.textContent = 'Submitted—check email to verify!';
-      else err.textContent = json.error || `Server ${resp.status}`;
-    } catch (net) {
-      console.error(net);
-      err.textContent = 'Network error; try again.';
-    }
-  });
-});
-</script>
+  </script>
 </body>
 </html>
