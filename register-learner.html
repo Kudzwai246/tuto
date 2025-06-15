@@ -125,7 +125,7 @@
           return;
         }
 
-        const payload = { fullName, email, guardianEmail: guardian,
+        const payload = { mode: 'registerLearner', fullName, email, guardianEmail: guardian,
                           isVocational: isV, grade: gradeVal,
                           curriculum: currVal, password: pw,
                           latitude: lat, longitude: lng };
