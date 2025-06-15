@@ -7,27 +7,87 @@
   <link rel="stylesheet" href="css/style.css"/>
   <style>
     :root {
-      --bg: #121212; --card: #1f1f1f;
-      --input-bg: #2a2a2a; --input-border: #444; --accent: #d84315;
+      --bg: #121212; --card: #1f1f1f; --input-bg: #2a2a2a;
+      --input-border: #444; --accent: #d84315;
       --text: #eee; --light: #ccc; --error: #f66; --success: #6f6;
     }
-    body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,sans-serif; }
-    .hero { background:var(--card); padding:2rem; text-align:center; }
-    .hero h1 { margin:0; }
-    .card { background:var(--card); max-width:600px; margin:2rem auto; padding:2rem; border-radius:8px; }
-    .card h2 { margin-top:0; color:var(--text); }
-    .form-group { margin-bottom:1.5rem; }
-    label { display:block; margin-bottom:.5rem; color:var(--light); }
-    input, select { width:100%; padding:.75rem; border:1px solid var(--input-border); border-radius:4px;
-                    background:var(--input-bg); color:var(--text); }
-    .checkbox { display:flex; align-items:center; margin-bottom:1.5rem; }
-    .checkbox input { margin-right:.5rem; }
-    button { width:100%; padding:.85rem; background:var(--accent); border:none; border-radius:4px;
-             color:#fff; font-size:1rem; cursor:pointer; }
-    .error { color:var(--error); text-align:center; margin-top:1rem; }
-    .success { color:var(--success); text-align:center; margin-top:1rem; }
-    #debug { background:#222; color:#aaa; padding:1rem; border-radius:4px; margin-top:1rem; font-size:.9rem; }
-    .disabled { opacity:.6; pointer-events:none; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+    }
+    .hero {
+      background: var(--card);
+      padding: 2rem;
+      text-align: center;
+    }
+    .card {
+      background: var(--card);
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 8px;
+    }
+    .card h2 {
+      margin-top: 0;
+      color: var(--text);
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: .5rem;
+      color: var(--light);
+    }
+    input, select {
+      width: 100%;
+      padding: .75rem;
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+      background: var(--input-bg);
+      color: var(--text);
+    }
+    .checkbox {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .checkbox input {
+      margin-right: .5rem;
+    }
+    #map {
+      width: 100%;
+      height: 200px;
+      background: #333;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: .85rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .error {
+      color: var(--error);
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .success {
+      color: var(--success);
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .disabled {
+      opacity: .6;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -60,8 +120,8 @@
         <select id="grade" name="grade" required>
           <option value="" disabled selected>Choose grade</option>
           <optgroup label="O-Level">
-            <option>Form 1 & 2</option>
-            <option>Form 3 & 4</option>
+            <option>Form 1 &amp; 2</option>
+            <option>Form 3 &amp; 4</option>
           </optgroup>
           <optgroup label="A-Level">
             <option>Arts</option>
@@ -93,80 +153,70 @@
       <button type="submit">Register</button>
       <p id="err" class="error"></p>
       <p id="ok" class="success"></p>
-
-      <div id="debug"></div>
     </form>
   </section>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('registerForm');
-      const err  = document.getElementById('err');
-      const ok   = document.getElementById('ok');
-      const dbg  = document.getElementById('debug');
-      const isVoc = document.getElementById('isVoc');
-      const grade = document.getElementById('grade');
-      const curr  = document.getElementById('curriculum');
-      const endpoint = 'https://script.google.com/macros/s/AKfycbxDttj739mRi6LXE9HP8AOtmvxh4i5K4LZ7o0ihntzVLKyKnYwvbT9q9G9c63duG_7lXg/exec?mode=registerLearner';
+      const form     = document.getElementById('registerForm');
+      const err      = document.getElementById('err');
+      const ok       = document.getElementById('ok');
+      const isVoc    = document.getElementById('isVoc');
+      const gradeSel = document.getElementById('grade');
+      const currSel  = document.getElementById('curriculum');
 
-      // toggle vocational
+      const endpoint = 'https://script.google.com/macros/s/AKfycbxQv9fa-Vqw2nKl1S-Cx1Xq547jkAOX2RsHzm70txMkWU1CaY5aWIyibkDw1nfUJDU8/exec';
+
       isVoc.addEventListener('change', () => {
+        gradeSel.required = currSel.required = !isVoc.checked;
+        gradeSel.classList.toggle('disabled', isVoc.checked);
+        currSel.classList.toggle('disabled', isVoc.checked);
         if (isVoc.checked) {
-          grade.required = curr.required = false;
-          grade.classList.add('disabled');
-          curr.classList.add('disabled');
-          grade.value = ''; curr.value = '';
-        } else {
-          grade.required = curr.required = true;
-          grade.classList.remove('disabled');
-          curr.classList.remove('disabled');
+          gradeSel.value = '';
+          currSel.value = '';
         }
       });
 
       form.addEventListener('submit', async e => {
         e.preventDefault();
-        err.textContent = ''; ok.textContent = ''; dbg.textContent = '';
+        err.textContent = '';
+        ok.textContent  = '';
 
-        // Build payload
         const payload = {
-          mode: 'registerLearner',
-          fullName: form.fullName.value.trim(),
-          email: form.email.value.trim().toLowerCase(),
+          fullName:      form.fullName.value.trim(),
+          email:         form.email.value.trim().toLowerCase(),
           guardianEmail: form.guardianEmail.value.trim().toLowerCase(),
-          isVocational: isVoc.checked,
-          grade:    isVoc.checked ? null : grade.value,
-          curriculum:isVoc.checked ? null : curr.value,
-          password: form.password.value,
-          latitude: document.getElementById('lat').value,
-          longitude:document.getElementById('lng').value
+          isVocational:  isVoc.checked,
+          grade:         isVoc.checked ? null : gradeSel.value,
+          curriculum:    isVoc.checked ? null : currSel.value,
+          password:      form.password.value,
+          latitude:      document.getElementById('lat').value,
+          longitude:     document.getElementById('lng').value
         };
 
-        // validations
         if (payload.password !== form.confirmPassword.value) {
-          err.textContent = 'Passwords do not match.'; return;
+          err.textContent = 'Passwords do not match.';
+          return;
         }
         if (!form.checkValidity()) {
-          form.reportValidity(); return;
+          form.reportValidity();
+          return;
         }
 
-        // show what we're sending
-        dbg.innerHTML = `<strong>Sending payload:</strong><br><pre>${JSON.stringify(payload,0,2)}</pre>`;
-
         try {
-          const resp = await fetch(endpoint, {
+          const res  = await fetch(endpoint, {
             method:'POST',
-            body: JSON.stringify(payload)
+            body:   JSON.stringify(payload)
           });
-          const json = await resp.json();
-          dbg.innerHTML += `<strong>Response:</strong><br><pre>${JSON.stringify(json,0,2)}</pre>`;
-          if (resp.ok && json.success) {
-            ok.textContent = 'Success! Check your email to verify.'; form.reset();
+          const json = await res.json();
+          if (res.ok && json.success) {
+            ok.textContent = 'Registration successful! Check your email to verify.';
+            form.reset();
           } else {
-            err.textContent = json.error || `Error ${resp.status}`;
+            err.textContent = json.error || `Error ${res.status}`;
           }
-        } catch (errNet) {
-          dbg.innerHTML += `<strong>Fetch error:</strong><br>${errNet}`; 
-          err.textContent = 'Network error; try again.';
+        } catch (netErr) {
+          err.textContent = 'Network error; please try again.';
         }
       });
     });
