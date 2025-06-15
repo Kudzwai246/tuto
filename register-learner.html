@@ -6,27 +6,57 @@
   <title>Register Learner — Tuto</title>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    /* your existing styles… */
-    .disabled { opacity: 0.6; pointer-events: none; }
+    :root {
+      --bg: #121212; --card: #1f1f1f;
+      --input-bg: #2a2a2a; --input-border: #444; --accent: #d84315;
+    }
+    body { margin:0; background:var(--bg); color:#eee; font-family:Inter,sans-serif; }
+    .hero { background:var(--card); padding:2rem; text-align:center; }
+    .hero h1 { margin:0; font-size:2rem; }
+    .card { background:var(--card); max-width:600px; margin:2rem auto; padding:2rem; border-radius:8px; }
+    .card h2 { margin-top:0; }
+    .form-group { margin-bottom:1.5rem; }
+    label { display:block; margin-bottom:.5rem; color:#ccc; }
+    input, select { width:100%; padding:.75rem; border:1px solid var(--input-border); border-radius:4px; background:var(--input-bg); color:#eee; }
+    .checkbox { display:flex; align-items:center; margin-bottom:1.5rem; }
+    .checkbox input { margin-right:.5rem; }
+    #map { width:100%; height:200px; background:#333; margin-bottom:1rem; border-radius:4px; }
+    button { width:100%; padding:.85rem; background:var(--accent); border:none; border-radius:4px; color:#fff; font-size:1rem; cursor:pointer; }
+    .error { color:#f66; text-align:center; margin-top:1rem; }
+    .success { color:#6f6; text-align:center; margin-top:1rem; }
+    .disabled { opacity:.6; pointer-events:none; }
   </style>
 </head>
 <body>
-  <div class="mini-hero">
+
+  <header class="hero">
     <h1>Register as a Learner</h1>
-    <p>Create your account, pick your curriculum & set location</p>
-  </div>
-  <div class="application-card">
+    <p>Create your account, choose your curriculum & set your location</p>
+  </header>
+
+  <section class="card">
     <h2>Learner Registration</h2>
-    <form id="registerLearnerForm" novalidate>
-      <!-- fields… -->
-      <div class="checkbox-group">
+    <form id="registerForm" novalidate>
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" name="fullName" type="text" required/>
+      </div>
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <input id="email" name="email" type="email" required/>
+      </div>
+      <div class="form-group">
+        <label for="guardianEmail">Guardian’s Email</label>
+        <input id="guardianEmail" name="guardianEmail" type="email" required/>
+      </div>
+      <div class="checkbox">
         <input type="checkbox" id="isVoc" name="isVocational"/>
-        <label for="isVoc">Vocational student (no grade/curriculum)</label>
+        <label for="isVoc">I’m a vocational learner (no grade/curriculum)</label>
       </div>
       <div class="form-group">
         <label for="grade">Grade / Level</label>
         <select id="grade" name="grade" required>
-          <option value="" disabled selected>Choose your grade</option>
+          <option value="" disabled selected>Choose grade</option>
           <optgroup label="O-Level">
             <option>Form 1 & 2</option>
             <option>Form 3 & 4</option>
@@ -46,81 +76,103 @@
           <option>Cambridge</option>
         </select>
       </div>
-      <!-- rest of fields… -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" minlength="6" required/>
+      </div>
+      <div class="form-group">
+        <label for="confirm">Confirm Password</label>
+        <input id="confirm" name="confirmPassword" type="password" minlength="6" required/>
+      </div>
+      <div id="map"></div>
+      <input type="hidden" id="lat" name="latitude" value="-17.8249"/>
+      <input type="hidden" id="lng" name="longitude" value="31.0498"/>
+
       <button type="submit">Register</button>
-      <p id="err" class="error-message"></p>
-      <p id="ok" class="success-message"></p>
+      <p id="err" class="error"></p>
+      <p id="ok" class="success"></p>
     </form>
-  </div>
+  </section>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Learner form script loaded');
+      const form       = document.getElementById('registerForm');
+      const errDisplay = document.getElementById('err');
+      const okDisplay  = document.getElementById('ok');
+      const isVoc      = document.getElementById('isVoc');
+      const gradeSel   = document.getElementById('grade');
+      const currSel    = document.getElementById('curriculum');
+      const endpoint   = 'https://script.google.com/macros/s/AKfycbxDttj739mRi6LXE9HP8AOtmvxh4i5K4LZ7o0ihntzVLKyKnYwvbT9q9G9c63duG_7lXg/exec?mode=registerLearner';
 
-      const form = document.getElementById('registerLearnerForm');
-      const err  = document.getElementById('err');
-      const ok   = document.getElementById('ok');
-      const isVoc = document.getElementById('isVoc');
-      const grade = document.getElementById('grade');
-      const curriculum = document.getElementById('curriculum');
-
-      // Enable/disable grade & curriculum
+      // Disable grade & curriculum if vocational
       isVoc.addEventListener('change', () => {
         if (isVoc.checked) {
-          grade.required = false;
-          curriculum.required = false;
-          grade.classList.add('disabled');
-          curriculum.classList.add('disabled');
-          grade.value = '';
-          curriculum.value = '';
+          gradeSel.required = currSel.required = false;
+          gradeSel.classList.add('disabled');
+          currSel.classList.add('disabled');
+          gradeSel.value = '';
+          currSel.value = '';
         } else {
-          grade.required = true;
-          curriculum.required = true;
-          grade.classList.remove('disabled');
-          curriculum.classList.remove('disabled');
+          gradeSel.required = currSel.required = true;
+          gradeSel.classList.remove('disabled');
+          currSel.classList.remove('disabled');
         }
       });
 
-      const endpoint = 'https://script.google.com/macros/s/AKfycbxDttj739mRi6LXE9HP8AOtmvxh4i5K4LZ7o0ihntzVLKyKnYwvbT9q9G9c63duG_7lXg/exec?mode=registerLearner';
+      // (Re)insert your initMap & placeMarker here if needed…
 
       form.addEventListener('submit', async e => {
         e.preventDefault();
-        err.textContent = '';
-        ok.textContent = '';
-        console.log('Submitting learner form…');
+        errDisplay.textContent = ''; 
+        okDisplay.textContent = '';
+        console.log('Submitting learner form...');
 
-        // collect values…
+        // Build payload
         const payload = {
+          mode: 'registerLearner',
           fullName: form.fullName.value.trim(),
           email: form.email.value.trim().toLowerCase(),
           guardianEmail: form.guardianEmail.value.trim().toLowerCase(),
           isVocational: isVoc.checked,
-          grade: isVoc.checked ? null : form.grade.value,
+          grade:    isVoc.checked ? null : form.grade.value,
           curriculum: isVoc.checked ? null : form.curriculum.value,
           password: form.password.value,
           latitude: document.getElementById('lat').value,
           longitude: document.getElementById('lng').value
         };
 
+        // Validate
+        if (payload.password !== form.confirmPassword.value) {
+          errDisplay.textContent = 'Passwords do not match.';
+          return;
+        }
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
         try {
-          console.log('POST to', endpoint, 'payload=', payload);
+          console.log('POST to', endpoint, payload);
           const resp = await fetch(endpoint, {
             method: 'POST',
             body: JSON.stringify(payload)
           });
           const json = await resp.json();
-          console.log('Server responded', resp.status, json);
+          console.log('Server response', resp.status, json);
           if (resp.ok && json.success) {
-            ok.textContent = 'Registration submitted — check your email to verify!';
+            okDisplay.textContent = 'Success! Check your email for verification.';
+            form.reset();
           } else {
-            err.textContent = json.error || `Server error ${resp.status}`;
+            errDisplay.textContent = json.error || `Error ${resp.status}`;
           }
         } catch (networkErr) {
           console.error('Network error', networkErr);
-          err.textContent = 'Network error — please try again';
+          errDisplay.textContent = 'Network error; please try again.';
         }
       });
     });
   </script>
+
 </body>
 </html>
