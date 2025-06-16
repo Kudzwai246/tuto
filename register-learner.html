@@ -3,117 +3,137 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Register Learner — Tuto</title>
+  <title>Learner Registration — Tuto</title>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    /* (your existing styles) */
-    .hidden-iframe { display:none; }
-    .success { color: #6f6; text-align:center; margin-top:1rem; }
-    .error   { color: #f66; text-align:center; margin-top:1rem; }
+    body { background:#121212;color:#eee;font-family:Inter,sans-serif;margin:0;padding:0; }
+    .wrapper { max-width:600px;margin:2rem auto;padding:1rem; }
+    h1 { text-align:center; }
+    form div { margin-bottom:1rem; }
+    label { display:block;color:#ccc; }
+    input, select, button { width:100%;padding:.75rem;border-radius:4px;
+      border:1px solid #444;background:#2a2a2a;color:#eee; }
+    input[type="checkbox"] { width:auto;margin-right:.5rem; }
+    button { background:#d84315;border:none;color:#fff;cursor:pointer; }
+    .disabled { opacity:.6;pointer-events:none; }
+    #msg { text-align:center;margin-top:1rem;font-weight:600; }
+    #msg.success { color:#6f6; }
+    #msg.error   { color:#f66; }
+    iframe { display:none; }
   </style>
 </head>
 <body>
-  <h1>Register as a Learner</h1>
-  <form
-    id="registerForm"
-    action="https://script.google.com/macros/s/AKfycbxQv9fa-Vqw2nKl1S-Cx1Xq547jkAOX2RsHzm70txMkWU1CaY5aWIyibkDw1nfUJDU8/exec"
-    method="post"
-    target="hidden_iframe"
-  >
-    <div>
-      <label>Full Name<input name="fullName" type="text" required/></label>
-    </div>
-    <div>
-      <label>Your Email<input name="email" type="email" required/></label>
-    </div>
-    <div>
-      <label>Guardian’s Email<input name="guardianEmail" type="email" required/></label>
-    </div>
-    <div>
-      <label><input name="isVocational" type="checkbox"/> Vocational student</label>
-    </div>
-    <div>
-      <label>Grade / Level
-        <select name="grade" required>
-          <option value="" disabled selected>Choose grade</option>
-          <optgroup label="O-Level">
-            <option>Form 1 &amp; 2</option>
-            <option>Form 3 &amp; 4</option>
-          </optgroup>
-          <optgroup label="A-Level">
-            <option>Arts</option><option>Commercials</option><option>Sciences</option>
-          </optgroup>
-        </select>
-      </label>
-    </div>
-    <div>
-      <label>Curriculum
-        <select name="curriculum" required>
-          <option value="" disabled selected>Choose curriculum</option>
-          <option>ZIMSEC</option><option>Cambridge</option>
-        </select>
-      </label>
-    </div>
-    <div>
-      <label>Password<input name="password" type="password" minlength="6" required/></label>
-    </div>
-    <div>
-      <label>Confirm Password<input name="confirmPassword" type="password" minlength="6" required/></label>
-    </div>
-    <!-- Hidden location fields -->
-    <input type="hidden" name="latitude" value="-17.8249"/>
-    <input type="hidden" name="longitude" value="31.0498"/>
-
-    <button type="submit">Register</button>
-  </form>
-
-  <!-- Feedback -->
-  <p id="msg" class=""></p>
-
-  <!-- Hidden iframe to catch the form response -->
-  <iframe name="hidden_iframe" class="hidden-iframe"></iframe>
+  <div class="wrapper">
+    <h1>Register as a Learner</h1>
+    <form
+      id="regForm"
+      action="https://script.google.com/macros/s/AKfycbxQv9fa-Vqw2nKl1S-Cx1Xq547jkAOX2RsHzm70txMkWU1CaY5aWIyibkDw1nfUJDU8/exec"
+      method="post"
+      target="hidden_iframe"
+    >
+      <div>
+        <label>Full Name
+          <input name="fullName" type="text" required/>
+        </label>
+      </div>
+      <div>
+        <label>Your Email
+          <input name="email" type="email" required/>
+        </label>
+      </div>
+      <div>
+        <label>Guardian’s Email
+          <input name="guardianEmail" type="email" required/>
+        </label>
+      </div>
+      <div>
+        <label>
+          <input name="isVocational" type="checkbox"/> Vocational learner
+        </label>
+      </div>
+      <div>
+        <label>Grade / Level
+          <select name="grade" required>
+            <option value="" disabled selected>Choose grade</option>
+            <optgroup label="O-Level">
+              <option>Form 1 & 2</option>
+              <option>Form 3 & 4</option>
+            </optgroup>
+            <optgroup label="A-Level">
+              <option>Arts</option>
+              <option>Commercials</option>
+              <option>Sciences</option>
+            </optgroup>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>Curriculum
+          <select name="curriculum" required>
+            <option value="" disabled selected>Choose curriculum</option>
+            <option>ZIMSEC</option>
+            <option>Cambridge</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>Password
+          <input name="password" type="password" minlength="6" required/>
+        </label>
+      </div>
+      <div>
+        <label>Confirm Password
+          <input name="confirmPassword" type="password" minlength="6" required/>
+        </label>
+      </div>
+      <!-- hidden location -->
+      <input type="hidden" name="latitude" value="-17.8249"/>
+      <input type="hidden" name="longitude" value="31.0498"/>
+      <button type="submit">Register</button>
+    </form>
+    <p id="msg"></p>
+    <iframe name="hidden_iframe"></iframe>
+  </div>
 
   <script>
-    const form = document.getElementById('registerForm');
-    const msg  = document.getElementById('msg');
-    const iframe = document.querySelector('iframe[name="hidden_iframe"]');
+    const form = document.getElementById('regForm'),
+          msg  = document.getElementById('msg');
 
-    // When the iframe loads (i.e. the form response came back), read it
-    iframe.onload = () => {
-      let doc, text;
+    // Show success/error when iframe reloads
+    document.querySelector('iframe[name="hidden_iframe"]').onload = () => {
       try {
-        doc  = iframe.contentDocument || iframe.contentWindow.document;
-        text = doc.body.innerText;
-        const json = JSON.parse(text);
+        const doc  = event.target.contentDocument,
+              text = doc.body.innerText,
+              json = JSON.parse(text);
         if (json.success) {
-          msg.textContent = 'Registration successful! Check email to verify.';
+          msg.textContent = 'Registration successful! Check your email to verify.';
           msg.className = 'success';
           form.reset();
         } else {
-          msg.textContent = json.error || 'Server error';
+          msg.textContent = json.error || 'Server error.';
           msg.className = 'error';
         }
-      } catch (err) {
+      } catch {
         msg.textContent = 'Unexpected response.';
         msg.className = 'error';
       }
     };
 
-    // Disable grade/curriculum if vocational
-    form.isVocational.addEventListener('change', e => {
-      const disable = e.target.checked;
-      form.grade.required = form.curriculum.required = !disable;
-      form.grade.disabled = form.curriculum.disabled = disable;
-    });
+    // Toggle grade/curriculum
+    form.isVocational.onchange = e => {
+      const dis = e.target.checked;
+      form.grade.required = form.curriculum.required = !dis;
+      form.grade.disabled = form.curriculum.disabled = dis;
+    };
 
-    // Prevent submission if passwords don't match
-    form.addEventListener('submit', e => {
+    // Prevent mismatched passwords
+    form.onsubmit = e => {
       if (form.password.value !== form.confirmPassword.value) {
         e.preventDefault();
         msg.textContent = 'Passwords do not match.';
         msg.className = 'error';
       }
-    });
+    };
   </script>
 </body>
 </html>
