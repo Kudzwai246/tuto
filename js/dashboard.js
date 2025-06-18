@@ -2,22 +2,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('sidebar');
   const hamb    = document.getElementById('hamburger');
 
-  // Hamburger toggles sidebar
+  // Toggle sidebar on hamburger tap
   hamb.onclick = () => sidebar.classList.toggle('open');
 
-  // Swipe support on the entire document
+  // Swipe on the entire window
   let startX = 0;
-  document.body.addEventListener('touchstart', e => {
+  let startTime = 0;
+
+  window.addEventListener('touchstart', e => {
     startX = e.changedTouches[0].clientX;
-  });
-  document.body.addEventListener('touchend', e => {
+    startTime = Date.now();
+  }, {passive:true});
+
+  window.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - startX;
-    if (dx < -50) {
-      // swipe left → hide
-      sidebar.classList.remove('open');
-    } else if (dx > 50) {
-      // swipe right → show
-      sidebar.classList.add('open');
+    const dt = Date.now() - startTime;
+    // only if quick enough (<500ms) and far enough (>50px)
+    if (dt < 500) {
+      if (dx < -50) {
+        // left swipe → close
+        sidebar.classList.remove('open');
+      } else if (dx > 50) {
+        // right swipe → open
+        sidebar.classList.add('open');
+      }
     }
-  });
+  }, {passive:true});
 });
