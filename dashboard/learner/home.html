@@ -1,111 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Learner Home — Tuto</title>
-<link rel="stylesheet" href="../css/style.css"/>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<style>
-  body{background:#121212;color:#eee;font-family:Inter,sans-serif;}
-  .accent{color:#d84315;}
-  #sidebar{width:250px;background:#1f1f1f;position:fixed;height:100vh;transition:transform .3s;}
-  #sidebar.collapsed{transform:translateX(-250px);}
-  #sidebar .nav-link{color:#ccc;}
-  #sidebar .nav-link:hover,#sidebar .nav-link.active{color:#fff;background:rgba(216,67,21,.2);}
-  #main{margin-left:250px;transition:margin .3s;}
-  #main.expanded{margin-left:0;}
-  .topbar{background:#1f1f1f;padding:.75rem;box-shadow:0 2px 4px rgba(0,0,0,.5);}
-  .card-tuto{background:#1f1f1f;border:none;color:#eee;animation:fadeInUp .6s;}
-  .card-tuto .card-body:hover{transform:translateY(-5px);box-shadow:0 8px 20px rgba(0,0,0,.7);}
-  @keyframes fadeInUp{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
-</style>
-</head>
-<body>
-<nav id="sidebar" class="d-flex flex-column p-3">
-  <h2 class="text-center accent mb-4">Tuto</h2>
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li><a href="home.html" class="nav-link active">Home</a></li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">My Teachers</a>
-      <ul class="dropdown-menu dropdown-menu-dark">
-        <li><a class="dropdown-item" href="teachers.html">List</a></li>
-        <li><a class="dropdown-item" href="search-teacher.html">Find New</a></li>
-      </ul>
-    </li>
-    <li><a href="schedule.html" class="nav-link">Schedule</a></li>
-    <li><a href="progress.html" class="nav-link">Progress</a></li>
-    <li><a href="messages.html" class="nav-link">Messages</a></li>
-  </ul>
-  <hr class="border-secondary"/>
-  <div class="mt-auto">
-    <button id="toggleSidebar" class="btn btn-outline-light w-100 mb-2">☰ Collapse</button>
-    <a href="../index.html" class="btn btn-accent w-100">Log Out</a>
-  </div>
-</nav>
-<div id="main">
-  <nav class="topbar navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand text-light" href="../index.html">Tuto</a>
-      <button class="navbar-toggler text-light" data-bs-toggle="collapse" data-bs-target="#navMenu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown">
-              <img src="../img/avatar-placeholder.png" width="30" class="rounded-circle me-2"/>[Name]
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-              <li><a class="dropdown-item" href="edit-profile.html">Edit Profile</a></li>
-              <li><hr class="dropdown-divider"/></li>
-              <li><a class="dropdown-item" href="../index.html">Log Out</a></li>
-            </ul>
-          </li>
-        </ul>
+{{> layout TITLE="Learner Home" HEADER_STATS="TG:3 • Pend:$0"}}
+<div class="container">
+  <h1 class="accent mb-4">Welcome back, [Learner Name]</h1>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <div class="card-tuto p-3">
+        <h5>Next Class</h5>
+        <p>Math w/ Mrs. Chipo – Jun 20, 2 PM</p>
       </div>
     </div>
-  </nav>
-  <header class="p-4 text-center">
-    <h1 class="display-5 accent">Welcome back, [Learner Name]</h1>
-    <p class="text-muted">Next: Math with Mrs. Chipo – Jun 20, 2 PM</p>
-  </header>
-  <div class="container px-4">
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card card-tuto">
-          <div class="card-body">
-            <h5 class="card-title">Upcoming Class</h5>
-            <p>Physics with Mr. Banda – Jun 18, 11 AM</p>
-          </div>
-        </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card-tuto p-3">
+        <h5>Total Teachers</h5>
+        <p>3</p>
       </div>
-      <div class="col-md-4">
-        <div class="card card-tuto">
-          <div class="card-body">
-            <h5>Total Teachers</h5>
-            <p class="display-6">3</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-tuto">
-          <div class="card-body">
-            <h5>Pending Payments</h5>
-            <p class="display-6">$0.00</p>
-          </div>
-        </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <div class="card-tuto p-3">
+        <h5>Pending Payments</h5>
+        <p>$0.00</p>
       </div>
     </div>
   </div>
-  <div class="text-center my-5">
-    <a href="teachers.html" class="btn btn-accent btn-lg">Find a New Teacher</a>
+  <div class="text-center mt-5">
+    <a href="find-teachers.html" class="btn btn-accent btn-lg">Find a Teacher</a>
   </div>
-  <footer class="text-center text-secondary py-3">&copy; 2025 Tuto</footer>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  document.getElementById('toggleSidebar').onclick=()=>{
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main').classList.toggle('expanded');
-  };
-</script>
-</body>
-</html>
+{{> endlayout}}
