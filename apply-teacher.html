@@ -8,8 +8,85 @@
   <link rel="stylesheet" href="css/dashboard.css"/>
 </head>
 <body>
-  <!-- Application form markup (unchanged) -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&libraries=places&callback=initMap" async defer></script>
+  <header class="hero mini-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Apply as a Teacher</h1>
+      <p>Complete your application, upload docs & set location</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="application-card">
+      <h2>Teacher Application</h2>
+      <form id="appForm" class="application-form" novalidate>
+        <!-- Name, Email, Phone -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input id="fullName" name="fullName" type="text" placeholder="Jane Smith" required/>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required/>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel"
+                 placeholder="+263771234567 or 0712345678"
+                 pattern="^(\\+263|0)[0-9]{9}$" required/>
+        </div>
+
+        <!-- Subjects, Qualification, Bio -->
+        <div class="form-group">
+          <label for="subjects">Subjects Taught</label>
+          <input id="subjects" name="subjects" type="text" placeholder="Math, English" required/>
+        </div>
+        <div class="form-group">
+          <label for="qualification">Highest Qualification</label>
+          <input id="qualification" name="qualification" type="text" placeholder="B.Ed" required/>
+        </div>
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio" name="bio" placeholder="A brief bio..." required></textarea>
+        </div>
+
+        <!-- Checkboxes -->
+        <div class="form-group">
+          <label><input type="checkbox" id="isVoc" name="isVocational"/> I am a vocational instructor</label>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="hasEquip" name="hasEquipment"/> I have the necessary equipment</label>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="hasSpace" name="hasSmallClassSpace"/> I have space for up to 5 learners</label>
+        </div>
+
+        <!-- File uploads -->
+        <div class="form-group file-group">
+          <span id="resumeLabel">Choose Resume (PDF)</span>
+          <input id="resume" name="resume" type="file" accept="application/pdf" required/>
+        </div>
+        <div class="form-group file-group">
+          <span id="docsLabel">Choose Qualification Docs (PDF)</span>
+          <input id="docs" name="docs" type="file" accept="application/pdf" required/>
+        </div>
+
+        <!-- Map picker -->
+        <div class="form-group">
+          <label>Location</label>
+          <div id="map" style="width:100%;height:200px;"></div>
+          <input type="hidden" id="latitude" name="latitude" value="-17.8249"/>
+          <input type="hidden" id="longitude" name="longitude" value="31.0498"/>
+        </div>
+
+        <button type="submit">Submit Application</button>
+        <p id="err" class="error-message"></p>
+        <p id="ok" class="success-message"></p>
+      </form>
+    </div>
+  </main>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwfeiSn22K53uoipJW5hC7CNKf4DTPopg&libraries=places&callback=initMap" async defer></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>
